@@ -5,6 +5,12 @@
   "scripts": {
     "lint": "eslint ./src --fix"
   },
+  "bin": {
+    "pitcher-watcher": "./src/index.js"
+  },
+  "files": [
+    "src/"
+  ],
   "devDependencies": {
     "@pitcher/eslint-config": "^1.2.1",
     "@vue/eslint-config-prettier": "^6.0.0",
