@@ -1,7 +1,7 @@
 const { exec } = require('child_process')
 const { readdir } = require('fs/promises')
 const { win_driveSelectionPrompt, win_userSelectionPrompt } = require('../prompts')
-const { error } = require('./logger')
+const { log, error } = require('./logger')
 
 const MAX_BUFFER_SIZE = 2000 * 1024
 
@@ -83,12 +83,21 @@ const getWindowsWorkingDirectory = async (basePath, fileID) => {
 }
 
 const findWindowsAppDirectory = async (fileID) => {
+  log('Searching for available network drives')
   const driveList = await listDrives()
   const selectedDrive = await win_driveSelectionPrompt(driveList)
+
+  log('Searching for Windows users in Parallels machine')
   const users = await findUsers(selectedDrive)
   const selectedUser = await win_userSelectionPrompt(users)
+
+  log('Finding Local State folder path')
   const localStatePath = await getLocalStatePath(selectedDrive, selectedUser)
+
+  log(`Searching for ${fileID} under Pitcher Folders/`)
   const appDirectory = await getWindowsWorkingDirectory(localStatePath, fileID)
+
+  log(`Directory found: ${appDirectory}`)
 
   return appDirectory
 }
