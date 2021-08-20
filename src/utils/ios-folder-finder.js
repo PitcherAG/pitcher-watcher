@@ -1,6 +1,6 @@
 const { exec } = require('child_process')
 const { iOS_deviceSelectionPrompt } = require('../prompts')
-const { error } = require('./logger')
+const { log, error } = require('./logger')
 
 const findActiveDevices = () => {
   return new Promise((resolve) => {
@@ -46,6 +46,8 @@ const findSimulatorAppWorkingDirectory = (deviceID, fileID) =>
         }
 
         if (!stdout) {
+          error(`File ID: ${fileID}`)
+          error(`Device ID: ${deviceID}`)
           error(`[ERROR]: There is no folder that contains ${fileID} under /Pitcher Folders/zip!`)
           process.exit(1)
         }
@@ -56,9 +58,16 @@ const findSimulatorAppWorkingDirectory = (deviceID, fileID) =>
   })
 
 const findIOSAppDirectory = async (fileID) => {
+  log('Searching for available iOS devices')
   const devices = await findActiveDevices()
+
+  log('Finding active devices')
   const selectedDevice = devices.length > 1 ? await iOS_deviceSelectionPrompt(devices) : devices.pop()
+
+  log(`Searching for ${fileID} under Pitcher Folders/`)
   const appDirectory = await findSimulatorAppWorkingDirectory(selectedDevice.udid, fileID)
+
+  log(`Directory found: ${appDirectory}`)
 
   return appDirectory
 }
