@@ -1,6 +1,7 @@
 const { findActiveDevices, findSimulatorAppWorkingDirectory } = require('./utils/ios-device-finder')
 const { deviceSelectionPrompt } = require('./prompts')
-const { watch } = require('./watcher')
+const { watch } = require('./utils/folder-watcher')
+const { log, warn, error } = require('./utils/logger')
 
 ;(async () => {
   try {

@@ -1,10 +1,11 @@
 const { exec } = require('child_process')
+const { error } = require('./utils/logger')
 
 const findActiveDevices = () => {
   return new Promise((resolve, reject) => {
     exec('xcrun simctl list devices --json', (err, stdout) => {
       if (err) {
-        console.log(`Something went wrong: ${JSON.stringify(err)}`)
+        error(`Something went wrong: ${JSON.stringify(err)}`)
 
         return reject(err)
       }
@@ -32,7 +33,7 @@ const findSimulatorAppWorkingDirectory = (deviceId, fileId) =>
       `find ~/Library/Developer/CoreSimulator/Devices/${deviceId} -type d -name "${fileId}*" -print -quit`,
       (err, stdout) => {
         if (err) {
-          console.log(`Something went wrong: ${JSON.stringify(err)}`)
+          error(`Something went wrong: ${JSON.stringify(err)}`)
 
           return reject(err)
         }
