@@ -50,16 +50,3 @@ module.exports = {
   findActiveDevices,
   findSimulatorAppWorkingDirectory,
 }
-
-// ;(async () => {
-//   try {
-//     const fileId = process.env.FILE_ID
-//     if (fileId === 'HERECOMESMYFILEID') throw new Error('Please set your file ID in the npm script!')
-//     const deviceId = await findActiveDeviceId()
-//     const path = await findSimulatorAppWorkingDirectory(deviceId, fileId)
-//     console.log(path)
-//   } catch (err) {
-//     console.error(err.message)
-//     process.exitCode = 1
-//   }
-// })()
