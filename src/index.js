@@ -1,7 +1,8 @@
+#!/usr/bin/env node
 const { findIOSAppDirectory } = require('./utils/ios-folder-finder')
 const { findWindowsAppDirectory } = require('./utils/win-folder-finder')
-const { watch } = require('./utils/watcher')
-const { log, warn, error } = require('./utils/logger')
+const { execVueScript, execWatcher } = require('./utils/watcher')
+const { log, error } = require('./utils/logger')
 
 const args = require('minimist')(process.argv.slice(2))
 
@@ -23,35 +24,27 @@ let shouldExit = false
 
 const platform = args.platform
 const fileID = args.fileID
+const isVue = args.vue
 
 ;(async () => {
   try {
     // const fileId = '729463' // non existing
     // const fileId = '796358' // existing
     // const fileId = '994133' // windows existing
+    let destination = null
 
-    const test = await findIOSAppDirectory(fileID)
-    console.log(test)
+    if (platform === 'ios') {
+      destination = await findIOSAppDirectory(fileID)
+    } else if (platform === 'win' || platform === 'windows') {
+      destination = await findWindowsAppDirectory(fileID)
+    } else {
+      error(`[ERROR]: Platform ${platform} is not supported!`)
+      process.exit(1)
+    }
 
-    // const devices = await findActiveDevices()
-
-    // console.log(devices)
-    // const winDirectory = await findWindowsAppDirectory(fileID)
-
-    // console.log(winDirectory)
-
-    // const selectedDevice = devices.length > 1 ? await iOS_deviceSelectionPrompt(devices) : devices.pop()
-    // const destinationFolder = await findSimulatorAppWorkingDirectory(selectedDevice.udid, fileID)
-
-    // console.log('selected device:', selectedDevice.udid)
-    // console.log('watching...')
-    // // console.log(destinationFolder)
-
-    // if (args.legacy) {
-    //   watch(destinationFolder)
-    // }
+    await execVueScript(destination)
   } catch (err) {
-    console.error(err.message)
+    error(err.message)
     process.exitCode = 1
   }
 })()

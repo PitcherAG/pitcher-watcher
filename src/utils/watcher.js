@@ -1,7 +1,6 @@
+const { exec } = require('child_process')
 const chokidar = require('chokidar')
-const chalk = require('chalk')
-const args = require('minimist')(process.argv.slice(2))
-const log = (m) => console.log(chalk.yellow(m))
+const { log, error } = require('./logger')
 
 // console.log(args)
 let filePath = null
@@ -10,7 +9,7 @@ const options = {
   paths: '',
 }
 
-const watch = (destination) => {
+const execWatcher = (destination) => {
   filePath = destination
   // file, dir, glob, or array
   const watcher = chokidar.watch('src/', {
@@ -29,6 +28,17 @@ const watch = (destination) => {
     })
 }
 
+const execVueScript = async (destination) => {
+  const vueScript = `NODE_ENV=development vue-cli-service build --watch --mode development --dest '${destination}'`
+
+  log(`Executing script: ${vueScript}`)
+  const { stdout, stderr } = exec(`${vueScript} --color=always`)
+
+  stdout.pipe(process.stdout)
+  stderr.pipe(process.stderr)
+}
+
 module.exports = {
-  watch,
+  execWatcher,
+  execVueScript,
 }
