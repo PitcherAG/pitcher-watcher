@@ -1,6 +1,6 @@
 {
-  "name": "@pitcher/vue-project-template",
-  "version": "1.0.1",
+  "name": "@pitcher/watcher",
+  "version": "0.0.1",
   "private": true,
   "scripts": {
     "lint": "eslint ./src --fix"
