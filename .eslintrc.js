@@ -1,11 +1,17 @@
 module.exports = {
   root: true,
   env: {
+    es6: true,
     node: true,
   },
+  plugins: ['prettier'],
   extends: ['@pitcher/eslint-config/javascript', 'prettier'],
   parserOptions: {
     parser: 'babel-eslint',
+    ecmaVersion: 2018,
+    sourceType: 'module',
   },
-  ignorePatterns: ['public/translations/**/*.json'],
+  rules: {
+    'prettier/prettier': ['error'],
+  },
 }
