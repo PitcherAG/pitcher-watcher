@@ -1,6 +1,5 @@
-const { findActiveDevices, findSimulatorAppWorkingDirectory } = require('./utils/ios-folder-finder')
+const { findIOSAppDirectory } = require('./utils/ios-folder-finder')
 const { findWindowsAppDirectory } = require('./utils/win-folder-finder')
-const { iOS_deviceSelectionPrompt } = require('./prompts')
 const { watch } = require('./utils/watcher')
 const { log, warn, error } = require('./utils/logger')
 
@@ -31,13 +30,16 @@ const fileID = args.fileID
     // const fileId = '796358' // existing
     // const fileId = '994133' // windows existing
 
+    const test = await findIOSAppDirectory(fileID)
+    console.log(test)
+
     // const devices = await findActiveDevices()
 
     // console.log(devices)
-    const test = await findWindowsAppDirectory(fileID)
+    // const winDirectory = await findWindowsAppDirectory(fileID)
 
-    console.log(test, 'test')
-    
+    // console.log(winDirectory)
+
     // const selectedDevice = devices.length > 1 ? await iOS_deviceSelectionPrompt(devices) : devices.pop()
     // const destinationFolder = await findSimulatorAppWorkingDirectory(selectedDevice.udid, fileID)
 
