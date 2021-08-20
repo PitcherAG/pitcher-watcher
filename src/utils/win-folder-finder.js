@@ -1,4 +1,4 @@
-const { exec, execSync } = require('child_process')
+const { exec } = require('child_process')
 const { readdir } = require('fs/promises')
 const { win_driveSelectionPrompt, win_userSelectionPrompt } = require('../prompts')
 const { error } = require('./logger')
@@ -25,11 +25,6 @@ const getAndFormatPath = (value) => {
     name: extractedPath.substring(extractedPath.lastIndexOf('/') + 1),
     path: extractedPath,
   }
-  // const replaceList = ['[', ']', ' ']
-
-  // replaceList.forEach((char) => {
-  //   driveObj.path = driveObj.path.replace(char, `\\${char}`)
-  // })
 
   return driveObj
 }
@@ -50,7 +45,6 @@ const listDrives = async () => {
 }
 
 const findUsers = async (drive) => {
-  console.log(drive)
   const dir = await readdir(`${drive.path}/Users`)
   const ignoreList = ['Default', 'All Users', 'Public', '.']
 
@@ -96,7 +90,6 @@ const findWindowsAppDirectory = async (fileID) => {
   const localStatePath = await getLocalStatePath(selectedDrive, selectedUser)
   const appDirectory = await getWindowsWorkingDirectory(localStatePath, fileID)
 
-  console.log(appDirectory)
   return appDirectory
 }
 
