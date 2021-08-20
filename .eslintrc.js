@@ -3,17 +3,9 @@ module.exports = {
   env: {
     node: true,
   },
-  extends: ['@pitcher'],
+  extends: ['@pitcher/eslint-config/javascript', 'prettier'],
   parserOptions: {
     parser: 'babel-eslint',
   },
   ignorePatterns: ['public/translations/**/*.json'],
-  overrides: [
-    {
-      files: ['**/*.spec.{j,t}s?(x)'],
-      env: {
-        jest: true,
-      },
-    },
-  ],
 }
