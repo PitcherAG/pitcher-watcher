@@ -1,5 +1,5 @@
 const { exec } = require('child_process')
-const { error } = require('./utils/logger')
+const { error } = require('./logger')
 
 const findActiveDevices = () => {
   return new Promise((resolve, reject) => {
