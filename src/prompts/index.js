@@ -1,6 +1,6 @@
 const inquirer = require('inquirer')
 
-const deviceSelectionPrompt = (devices) => {
+const iOS_deviceSelectionPrompt = (devices) => {
   return new Promise((resolve) => {
     inquirer
       .prompt([
@@ -21,6 +21,50 @@ const deviceSelectionPrompt = (devices) => {
   })
 }
 
+const win_driveSelectionPrompt = (drives) => {
+  return new Promise((resolve) => {
+    inquirer
+      .prompt([
+        {
+          type: 'list',
+          name: 'driveSelection',
+          message: 'Select a drive: ',
+          default: drives[0],
+          choices: drives.map((d) => ({ name: d.name, value: d })),
+        },
+      ])
+      .then((answers) => {
+        return resolve(answers.driveSelection)
+      })
+      .catch((err) => {
+        throw new Error(`Something went wrong: ${err}`)
+      })
+  })
+}
+
+const win_userSelectionPrompt = (users) => {
+  return new Promise((resolve) => {
+    inquirer
+      .prompt([
+        {
+          type: 'list',
+          name: 'userSelection',
+          message: 'Select Windows User: ',
+          default: users[0],
+          choices: users.map((d) => ({ name: d, value: d })),
+        },
+      ])
+      .then((answers) => {
+        return resolve(answers.userSelection)
+      })
+      .catch((err) => {
+        throw new Error(`Something went wrong: ${err}`)
+      })
+  })
+}
+
 module.exports = {
-  deviceSelectionPrompt,
+  iOS_deviceSelectionPrompt,
+  win_driveSelectionPrompt,
+  win_userSelectionPrompt,
 }
