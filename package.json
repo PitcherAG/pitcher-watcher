@@ -3,6 +3,7 @@
   "version": "0.0.1",
   "private": true,
   "scripts": {
+    "test": "node src/index --fileID=994133 --ignore={a,b,c} --platform=ios",
     "lint": "eslint ./src --fix"
   },
   "bin": {
