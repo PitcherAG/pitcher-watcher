@@ -1,13 +1,12 @@
 {
   "name": "@pitcher/watcher",
   "version": "0.0.1",
-  "private": true,
   "scripts": {
-    "test": "node src/index --fileID=994133 --ignore={a,b,c} --platform=ios",
+    "test": "node src/index --fileID=994133 --platform=ios --vue --ignore",
     "lint": "eslint ./src --fix"
   },
   "bin": {
-    "pitcher-watcher": "./src/index.js"
+    "pitcher-watcher": "src/index.js"
   },
   "files": [
     "src/"
