@@ -28,8 +28,10 @@ const execWatcher = (destination) => {
     })
 }
 
-const execVueScript = async (destination) => {
-  const vueScript = `NODE_ENV=development vue-cli-service build --watch --mode development --dest '${destination}'`
+const execVueScript = async (destination, vueArgs) => {
+  let vueScript = `NODE_ENV=development vue-cli-service build --watch --mode development --dest '${destination}'`
+
+  vueScript += ` ${vueArgs}`
 
   log(`Executing script: ${vueScript}`)
   const { stdout, stderr } = exec(`${vueScript} --color=always`)
