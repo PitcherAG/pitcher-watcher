@@ -1,0 +1,47 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: easygettext\n"
+"Project-Id-Version: \n"
+"Language: sw\n"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Current time: {time}"
+msgstr "Wakati wa sasa: {time}"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Hello World!"
+msgstr "Salamu, Dunia!"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "I have {numTickets} tickets."
+msgid_plural "_vm"
+msgstr[0] "Nina tiketi {numTickets} ."
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Language"
+msgstr "Lugha"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid ""
+"Pitcher redefines the way sales managers, marketing professionals, and "
+"field reps engage and interact with your customers. By integrating "
+"comprehensive solutions into a single, intuitive piece of sales enablement "
+"software, Pitcher empowers its users to be more productive and more "
+"profitable."
+msgstr ""
+"Mtungi hufafanua jinsi mameneja wa mauzo, wataalamu wa uuzaji, na "
+"wawakilishi wa uwanja wanavyoshirikiana na kushirikiana na wateja wako. Kwa "
+"kujumuisha suluhisho kamili katika programu moja ya kuwezesha mauzo, Mtungi "
+"huwawezesha watumiaji wake kuwa na tija zaidi na faida zaidi."
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "User: {username}"
+msgstr "Mtumiaji: {username}"

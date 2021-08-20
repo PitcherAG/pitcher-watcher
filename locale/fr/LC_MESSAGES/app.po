@@ -1,0 +1,49 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: easygettext\n"
+"Project-Id-Version: \n"
+"Language: fr\n"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Current time: {time}"
+msgstr "Heure actuelle: {time}"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Hello World!"
+msgstr "Bonjour le monde!"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "I have {numTickets} tickets."
+msgid_plural "_vm"
+msgstr[0] "J&#39;ai {numTickets} billets."
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Language"
+msgstr "Langue"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid ""
+"Pitcher redefines the way sales managers, marketing professionals, and "
+"field reps engage and interact with your customers. By integrating "
+"comprehensive solutions into a single, intuitive piece of sales enablement "
+"software, Pitcher empowers its users to be more productive and more "
+"profitable."
+msgstr ""
+"Pitcher redéfinit la façon dont les directeurs des ventes, les "
+"professionnels du marketing et les représentants sur le terrain "
+"s&#39;engagent et interagissent avec vos clients. En intégrant des "
+"solutions complètes dans un logiciel unique et intuitif d&#39;aide à la "
+"vente, Pitcher permet à ses utilisateurs d&#39;être plus productifs et plus "
+"rentables."
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "User: {username}"
+msgstr "Utilisateur: {username}"

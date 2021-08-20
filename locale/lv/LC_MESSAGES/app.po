@@ -1,0 +1,47 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: easygettext\n"
+"Project-Id-Version: \n"
+"Language: lv\n"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Current time: {time}"
+msgstr "Pašreizējais laiks: {time}"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Hello World!"
+msgstr "Sveika pasaule!"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "I have {numTickets} tickets."
+msgid_plural "_vm"
+msgstr[0] "Man ir {numTickets} biļetes."
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Language"
+msgstr "Valoda"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid ""
+"Pitcher redefines the way sales managers, marketing professionals, and "
+"field reps engage and interact with your customers. By integrating "
+"comprehensive solutions into a single, intuitive piece of sales enablement "
+"software, Pitcher empowers its users to be more productive and more "
+"profitable."
+msgstr ""
+"Pitcher pārdefinē veidu, kā pārdošanas vadītāji, mārketinga profesionāļi un "
+"nozares pārstāvji iesaistās un mijiedarbojas ar jūsu klientiem. Integrējot "
+"visaptverošus risinājumus vienā, intuitīvā pārdošanas veicināšanas "
+"programmatūrā, Pitcher ļauj lietotājiem būt produktīvākiem un ienesīgākiem."
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "User: {username}"
+msgstr "Lietotājs: {username}"

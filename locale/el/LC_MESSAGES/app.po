@@ -1,0 +1,49 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: easygettext\n"
+"Project-Id-Version: \n"
+"Language: el\n"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Current time: {time}"
+msgstr "Τρέχουσα ώρα: {time}"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Hello World!"
+msgstr "Γειά σου Κόσμε!"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "I have {numTickets} tickets."
+msgid_plural "_vm"
+msgstr[0] "Έχω {numTickets} εισιτήρια."
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Language"
+msgstr "Γλώσσα"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid ""
+"Pitcher redefines the way sales managers, marketing professionals, and "
+"field reps engage and interact with your customers. By integrating "
+"comprehensive solutions into a single, intuitive piece of sales enablement "
+"software, Pitcher empowers its users to be more productive and more "
+"profitable."
+msgstr ""
+"Το Pitcher επαναπροσδιορίζει τον τρόπο με τον οποίο οι διαχειριστές "
+"πωλήσεων, οι επαγγελματίες μάρκετινγκ και οι αντιπρόσωποι πεδίου "
+"αλληλεπιδρούν και αλληλεπιδρούν με τους πελάτες σας. Με την ενσωμάτωση "
+"ολοκληρωμένων λύσεων σε ένα ενιαίο, διαισθητικό λογισμικό ενεργοποίησης "
+"πωλήσεων, το Pitcher δίνει τη δυνατότητα στους χρήστες του να είναι πιο "
+"παραγωγικοί και πιο κερδοφόροι."
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "User: {username}"
+msgstr "Χρήστης: {username}"

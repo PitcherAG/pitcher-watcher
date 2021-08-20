@@ -1,0 +1,45 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: easygettext\n"
+"Project-Id-Version: \n"
+"Language: zh-CN\n"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Current time: {time}"
+msgstr "当前时间： {time}"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Hello World!"
+msgstr "你好，世界！"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "I have {numTickets} tickets."
+msgid_plural "_vm"
+msgstr[0] "我有{numTickets}张票。"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Language"
+msgstr "语言"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid ""
+"Pitcher redefines the way sales managers, marketing professionals, and "
+"field reps engage and interact with your customers. By integrating "
+"comprehensive solutions into a single, intuitive piece of sales enablement "
+"software, Pitcher empowers its users to be more productive and more "
+"profitable."
+msgstr ""
+"Pitcher重新定义了销售经理，营销专家和现场代表与客户互动和互动的方式。通过将全面的解决方案集成到单个直观的销售支持软件中，Pitcher使其用户能"
+"够提高生产力和利润。"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "User: {username}"
+msgstr "用户： {username}"

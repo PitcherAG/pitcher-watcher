@@ -1,0 +1,48 @@
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: easygettext\n"
+"Project-Id-Version: \n"
+"Language: ro\n"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Current time: {time}"
+msgstr "Ora curentă: {time}"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Hello World!"
+msgstr "Salut Lume!"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "I have {numTickets} tickets."
+msgid_plural "_vm"
+msgstr[0] "Am bilete {numTickets} ."
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "Language"
+msgstr "Limba"
+
+#: src/views/Home.vue
+#, fuzzy
+msgid ""
+"Pitcher redefines the way sales managers, marketing professionals, and "
+"field reps engage and interact with your customers. By integrating "
+"comprehensive solutions into a single, intuitive piece of sales enablement "
+"software, Pitcher empowers its users to be more productive and more "
+"profitable."
+msgstr ""
+"Pitcher redefinește modul în care managerii de vânzări, profesioniștii în "
+"marketing și reprezentanții de teren se angajează și interacționează cu "
+"clienții dvs. Prin integrarea soluțiilor cuprinzătoare într-o singură "
+"bucată de software intuitiv de activare a vânzărilor, Pitcher îi "
+"împuternicește pe utilizatorii săi să fie mai productivi și mai profitabili."
+
+#: src/views/Home.vue
+#, fuzzy
+msgid "User: {username}"
+msgstr "Utilizator: {username}"
