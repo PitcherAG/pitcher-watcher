@@ -3,20 +3,16 @@ const { exec } = require('child_process')
 const { initialize } = require('./init')
 const { findIOSAppDirectory } = require('./utils/ios-folder-finder')
 const { findWindowsAppDirectory } = require('./utils/win-folder-finder')
+const { cleanDirectory } = require('./utils/clean')
 const { log, error } = require('./utils/logger')
 
-const execVueScript = async (vueArgs, destination, platform) => {
+const execVueScript = async (vueArgs, destination) => {
   const args = vueArgs.split('--').filter((a) => a)
 
   // if external vueArgs does not include mode, add mode development
   !args.some((a) => a.includes('mode')) && args.unshift('mode development')
   // if external vueArgs does not include dest, add default destination
   !args.some((a) => a.includes('dest')) && args.push(`dest '${destination}'`)
-
-  // this due to vue-cli trying to clean the folder, not possible in windows
-  if ((platform === 'win' || platform === 'windows') && !args.some((a) => a.includes('no-clean'))) {
-    args.push(`no-clean`)
-  }
 
   // base script
   let vueScript = 'NODE_ENV=development vue-cli-service build --watch'
@@ -27,7 +23,8 @@ const execVueScript = async (vueArgs, destination, platform) => {
   })
 
   log(`Executing script: ${vueScript}`, 'green')
-  const { stdout, stderr } = exec(`${vueScript} --color=always`)
+  // cleaning handled by this package, vue-cli should not delete anything
+  const { stdout, stderr } = exec(`${vueScript} --color=always --no-clean`)
 
   stdout.pipe(process.stdout)
   stderr.pipe(process.stderr)
@@ -39,7 +36,7 @@ const execVueScript = async (vueArgs, destination, platform) => {
 
 ;(async () => {
   // initialize application and get args
-  const { platform, fileID, vueArgs } = initialize()
+  const { platform, fileID, vueArgs, clean } = initialize()
 
   try {
     let destination = null
@@ -48,6 +45,10 @@ const execVueScript = async (vueArgs, destination, platform) => {
       destination = await findIOSAppDirectory(fileID)
     } else if (platform === 'win' || platform === 'windows') {
       destination = await findWindowsAppDirectory(fileID)
+    }
+
+    if (clean) {
+      cleanDirectory(destination, platform)
     }
 
     // if everything is fine until this point, execute vue script

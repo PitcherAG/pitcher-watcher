@@ -38,6 +38,7 @@ const initialize = () => {
     platform: args.platform,
     fileID: args.fileID,
     vueArgs: args.vueArgs || '',
+    clean: args.clean || true,
   }
 }
 
