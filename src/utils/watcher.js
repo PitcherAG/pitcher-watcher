@@ -35,7 +35,9 @@ const execVueScript = async (destination, vueArgs, platform) => {
   !args.some((a) => a.includes('dest')) && args.push(`dest '${destination}'`)
 
   // this due to vue-cli trying to clean the folder, not possible in windows
-  if (platform === 'win' || platform === 'windows') args.push(`no-clean`)
+  if ((platform === 'win' || platform === 'windows') && !args.some((a) => a.includes('no-clean'))) {
+    args.push(`no-clean`)
+  }
 
   // base script
   let vueScript = 'NODE_ENV=development vue-cli-service build --watch '
