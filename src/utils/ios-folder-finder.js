@@ -62,9 +62,10 @@ const findIOSAppDirectory = async (fileID) => {
   const devices = await findActiveDevices()
 
   log('Finding active devices')
+  // use devices.pop to extract single object from array
   const selectedDevice = devices.length > 1 ? await iOS_deviceSelectionPrompt(devices) : devices.pop()
 
-  log(`Searching for ${fileID} under Pitcher Folders/`)
+  log(`Searching for folder that contains ${fileID} under Pitcher Folders/`)
   const appDirectory = await findSimulatorAppWorkingDirectory(selectedDevice.udid, fileID)
 
   log(`Directory found: ${appDirectory}`)

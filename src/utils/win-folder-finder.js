@@ -94,7 +94,7 @@ const findWindowsAppDirectory = async (fileID) => {
   log('Finding Local State folder path')
   const localStatePath = await getLocalStatePath(selectedDrive, selectedUser)
 
-  log(`Searching for ${fileID} under Pitcher Folders/`)
+  log(`Searching for folder that contains ${fileID} under Pitcher Folders/`)
   const appDirectory = await getWindowsWorkingDirectory(localStatePath, fileID)
 
   log(`Directory found: ${appDirectory}`)
