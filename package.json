@@ -6,7 +6,8 @@
     "lint": "eslint ./src --fix"
   },
   "bin": {
-    "pitcher-watcher": "src/index.js"
+    "pitcher-watcher": "src/watcher.js",
+    "pitcher-watcher-vue": "src/vue.js"
   },
   "files": [
     "src/"
