@@ -28,12 +28,24 @@ const execWatcher = (destination) => {
     })
 }
 
-const execVueScript = async (destination, vueArgs) => {
-  let vueScript = `NODE_ENV=development vue-cli-service build --watch --mode development --dest '${destination}'`
+const execVueScript = async (destination, vueArgs, platform) => {
+  const args = vueArgs.split('--').filter((a) => a)
 
-  vueScript += ` ${vueArgs}`
+  !args.some((a) => a.includes('mode')) && args.unshift('mode development')
+  !args.some((a) => a.includes('dest')) && args.push(`dest '${destination}'`)
 
-  log(`Executing script: ${vueScript}`)
+  // this due to vue-cli trying to clean the folder, not possible in windows
+  if (platform === 'win' || platform === 'windows') args.push(`no-clean`)
+
+  // base script
+  let vueScript = 'NODE_ENV=development vue-cli-service build --watch '
+
+  // build script with args
+  args.forEach((arg) => {
+    vueScript += `--${arg.trim()} `
+  })
+
+  log(`Executing script: ${vueScript}`, 'green')
   const { stdout, stderr } = exec(`${vueScript} --color=always`)
 
   stdout.pipe(process.stdout)

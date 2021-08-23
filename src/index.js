@@ -25,12 +25,7 @@ let shouldExit = false
 const platform = args.platform
 const fileID = args.fileID
 const isVue = args.vue
-let vueArgs = args.vueArgs || ''
-
-// this due to vue-cli trying to clean the folder, not possible in windows
-if (platform === 'win' || platform === 'windows') {
-  vueArgs += ' --no-clean'
-}
+const vueArgs = args.vueArgs || ''
 
 ;(async () => {
   try {
@@ -50,10 +45,10 @@ if (platform === 'win' || platform === 'windows') {
 
     // default behaviour?
     if (isVue) {
-      await execVueScript(destination, vueArgs)
+      await execVueScript(destination, vueArgs, platform)
     }
   } catch (err) {
     error(err.message)
-    process.exitCode = 1
+    process.exit(1)
   }
 })()
