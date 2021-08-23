@@ -78,7 +78,7 @@ const getWindowsWorkingDirectory = async (basePath, fileID) => {
     }
   }
 
-  error(`[ERROR]: There is no folder that contains ${fileID} under /Pitcher Folders/zip!`)
+  error(`[ERROR]: Could not find a folder that contains ${fileID} in /Pitcher Folders/!`)
   process.exit(1)
 }
 
