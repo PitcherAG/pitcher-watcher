@@ -1,8 +1,6 @@
-const fs = require('fs')
 const { exec } = require('child_process')
+const { isDirEmpty } = require('./file-system')
 const { log, error } = require('./logger')
-
-const isDirEmpty = (path) => fs.readdirSync(path).filter((f) => !/^\..*/.test(f)).length === 0
 
 const cleanDirectory = (path) => {
   let destination = path.replace(/(\[|\]|\s)/g, '\\$&')
