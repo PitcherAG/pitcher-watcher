@@ -48,7 +48,7 @@ const execVueScript = async (vueArgs, destination) => {
     }
 
     if (clean) {
-      cleanDirectory(destination, platform)
+      cleanDirectory(destination)
     }
 
     // if everything is fine until this point, execute vue script
