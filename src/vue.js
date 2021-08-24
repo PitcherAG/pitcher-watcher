@@ -36,14 +36,16 @@ const execVueScript = async (vueArgs, destination) => {
 
 ;(async () => {
   // initialize application and get args
-  const { platform, fileID, vueArgs, clean } = initialize()
+  const { platform, fileID, vueArgs, dest, clean } = initialize('vue')
 
   try {
-    let destination = null
+    let destination = dest
 
-    if (platform === 'ios') {
+    if (destination) log('Argument --dest provided manually, skipping folder search')
+
+    if (!destination && platform === 'ios') {
       destination = await findIOSAppDirectory(fileID)
-    } else if (platform === 'win' || platform === 'windows') {
+    } else if (!destination && (platform === 'win' || platform === 'windows')) {
       destination = await findWindowsAppDirectory(fileID)
     }
 
