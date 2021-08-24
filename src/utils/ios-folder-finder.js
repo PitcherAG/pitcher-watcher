@@ -7,8 +7,7 @@ const findActiveDevices = () => {
     // eslint-disable-next-line consistent-return
     exec('xcrun simctl list devices --json', (err, stdout) => {
       if (err) {
-        error(`[ERROR]: Make sure you are running Parallels Machine and mounted the VM drive as network drive!`)
-        error(`${JSON.stringify(err)}`)
+        error(`Something went wrong: ${JSON.stringify(err)}`)
         process.exit(1)
       }
 
