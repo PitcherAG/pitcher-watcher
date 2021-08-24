@@ -3,7 +3,7 @@ const { exec } = require('child_process')
 const { initialize } = require('./init')
 const { findIOSAppDirectory } = require('./utils/ios-folder-finder')
 const { findWindowsAppDirectory } = require('./utils/win-folder-finder')
-const { cleanDirectory } = require('./utils/clean')
+const { cleanDirectory } = require('./utils/file-system')
 const { log, error } = require('./utils/logger')
 
 const execVueScript = async (vueArgs, destination) => {
@@ -54,7 +54,7 @@ const execVueScript = async (vueArgs, destination) => {
     }
 
     // if everything is fine until this point, execute vue script
-    await execVueScript(vueArgs, destination, platform)
+    await execVueScript(vueArgs, destination)
   } catch (err) {
     error(err.message)
     process.exit(1)
