@@ -27,48 +27,28 @@ const validateCommonArgs = () => {
   }
 }
 
-const parseChokidarArgs = () => {
-  const chokidarArgs = {
-    path: '.',
-    dest: '',
-    ignoreDotFiles: true,
+const parseChokidarOpts = () => {
+  // to ignore default values
+  const ignoreList = ['platform', 'fileID', 'clean', 'dest', '_']
+  const chokidarOpts = {}
 
-    // chokidar specific
-    ignored: [],
-    persistent: args.persistent,
-    ignoreInitial: args.ignoreInitial,
-    followSymlinks: args.followSymlinks,
-    cwd: args.cwd,
-    disableGlobbing: args.disableGlobbing,
-    usePolling: args.usePolling,
-    interval: args.interval,
-    binaryInterval: args.binaryInterval,
-    alwaysStat: args.alwaysStat,
-    depth: args.depth,
-    // separate logic for this one below
-    // awaitWriteFinish: {},
-    ignorePermissionErrors: args.ignorePermissionErrors,
-    atomic: args.atomic,
+  // parse every key as chokidar arg except ignored ones (pitcher specific args)
+  for (const key in args) {
+    if (!ignoreList.includes(key)) {
+      chokidarOpts[key] = args[key]
+    }
   }
 
-  const { ignoreDotFiles, ignored } = args
+  const { paths, ignored, includeNodeModules, includeDotFiles } = chokidarOpts
 
   // parse ignored argument or empty array
-  chokidarArgs.ignored = (ignored && ignored.split(',').map((val) => val.trim())) || []
-  // ignore dot files by default
-  !ignoreDotFiles && chokidarArgs.ignored.push(/(^|[\/\\])\../)
+  chokidarOpts.paths = (paths && paths.split(',').map((val) => val.trim())) || ['.']
+  chokidarOpts.ignored = (ignored && ignored.split(',').map((val) => val.trim())) || []
 
-  if (typeof args.awaitWriteFinish === 'string') {
-    warn('awaitWriteFinish argument is not supported to use with string')
-    warn('use --awaitWriteFinish.stabilityThreshold or --awaitWriteFinish.pollIntervall instead')
-  } else if (typeof args.awaitWriteFinish === 'boolean' || typeof args.awaitWriteFinish === 'object') {
-    chokidarArgs.awaitWriteFinish = args.awaitWriteFinish
-  }
+  !includeNodeModules && chokidarOpts.ignored.push('/node_modules/')
+  !includeDotFiles && chokidarOpts.ignored.push(/(^|[\/\\])\../)
 
-  // clean-up undefined values
-  Object.keys(chokidarArgs).forEach((key) => chokidarArgs[key] === undefined && delete chokidarArgs[key])
-
-  return chokidarArgs
+  return chokidarOpts
 }
 
 // const fileId = '729463' // non existing
@@ -79,6 +59,7 @@ const parseChokidarArgs = () => {
 const initialize = (type = 'vue') => {
   validateCommonArgs()
 
+  // common args first
   const parsedArgs = {
     platform: args.platform,
     fileID: args.fileID,
@@ -94,7 +75,7 @@ const initialize = (type = 'vue') => {
   }
 
   /* Plain watcher */
-  parsedArgs.chokidar = parseChokidarArgs()
+  parsedArgs.chokidar = parseChokidarOpts()
 
   return parsedArgs
 }
