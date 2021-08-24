@@ -45,7 +45,7 @@ const parseChokidarOpts = () => {
   chokidarOpts.paths = (paths && paths.split(',').map((val) => val.trim())) || ['.']
   chokidarOpts.ignored = (ignored && ignored.split(',').map((val) => val.trim())) || []
 
-  !includeNodeModules && chokidarOpts.ignored.push('/node_modules/')
+  !includeNodeModules && chokidarOpts.ignored.push(/node_modules/)
   !includeDotFiles && chokidarOpts.ignored.push(/(^|[\/\\])\../)
 
   return chokidarOpts
