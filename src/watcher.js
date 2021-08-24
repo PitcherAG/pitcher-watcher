@@ -3,54 +3,41 @@ const chokidar = require('chokidar')
 const { initialize } = require('./init')
 const { findIOSAppDirectory } = require('./utils/ios-folder-finder')
 const { findWindowsAppDirectory } = require('./utils/win-folder-finder')
-const { cleanDirectory } = require('./utils/clean')
-const { log, error } = require('./utils/logger')
+const { cleanDirectory, bashCopy } = require('./utils/file-system')
+const { log, clog, error } = require('./utils/logger')
 
-let filePath = null
+const execWatcher = (chokidarOpts, destination, fileID, clean) => {
+  const watcher = chokidar.watch(chokidarOpts.paths, chokidarOpts)
 
-const defaults = {
-  path: '.',
-  dest: '',
-  ignoreDotFiles: true,
+  const copyFiles = () => {
+    // clean directory before
+    if (clean) cleanDirectory(destination, false)
 
-  // chokidar specific
-  persistent: true,
-  ignored: /(^|[\/\\])\../,
-  ignoreInitial: false,
-  followSymlinks: true,
-  cwd: '.',
-  disableGlobbing: false,
-  usePolling: false,
-  interval: 100,
-  binaryInterval: 300,
-  alwaysStat: false,
-  depth: 99,
-  awaitWriteFinish: {
-    stabilityThreshold: 2000,
-    pollInterval: 100,
-  },
-  ignorePermissionErrors: false,
-  atomic: true,
-}
+    bashCopy(chokidarOpts.paths, destination)
+  }
 
-const execWatcher = (destination) => {
-  filePath = destination
-  // file, dir, glob, or array
-  const watcher = chokidar.watch(defaults.src, {
-    ignored: /(^|[\/\\])\../, // ignore dotfiles
-    persistent: true,
-  })
+  const initialLog = () => {
+    console.log()
+    log('Waiting for changes...', 'green')
+    console.log()
+    clog('- File ID:', 'white', fileID, 'cyan')
+    clog('- Copy destination:', 'white', destination, 'cyan')
+    clog('- Watching paths:', 'white')
+    chokidarOpts.paths.forEach((p) => clog(`  - ${p}`, 'green'))
+    console.log()
+  }
 
   // Event listeners
   watcher
-    // .on('add', (path) => log(`File ${path} has been added`))
-    .on('unlink', (path) => log(`File ${path} has been removed`))
+    .on('unlink', (path) => log(`removed: ${path}`, 'red'))
     .on('change', (path) => {
-      log(`File ${path} has been changed`)
-      // copy files here to destination
-      console.log('updated:', filePath)
+      log(`changed: ${path}`, 'yellow')
+      copyFiles()
     })
-    .on('ready', () => log('[WATCHER]: Initial scan complete. Ready for changes'))
+    .on('ready', () => {
+      copyFiles()
+      initialLog()
+    })
     .on('error', (err) => error(`[ERROR]: Watcher error: ${err}`))
 }
 
@@ -60,7 +47,7 @@ const execWatcher = (destination) => {
 
 ;(async () => {
   // initialize application and get args
-  const { platform, fileID, dest, clean } = initialize('watcher')
+  const { platform, fileID, dest, clean, chokidarOpts } = initialize('watcher')
 
   try {
     let destination = dest
@@ -73,12 +60,8 @@ const execWatcher = (destination) => {
       destination = await findWindowsAppDirectory(fileID)
     }
 
-    // if (clean) {
-    //   cleanDirectory(destination)
-    // }
-
-    // // if everything is fine until this point, start watcher
-    // await execWatcher(vueArgs, destination, platform)
+    // if everything is fine until this point, start watcher
+    await execWatcher(chokidarOpts, destination, fileID, clean)
   } catch (err) {
     error(err.message)
     process.exit(1)
