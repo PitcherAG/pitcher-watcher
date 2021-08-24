@@ -1,5 +1,5 @@
 const args = require('minimist')(process.argv.slice(2))
-const { error, warn } = require('./utils/logger')
+const { error } = require('./utils/logger')
 
 let shouldExit = false
 
