@@ -51,10 +51,6 @@ const parseChokidarOpts = () => {
   return chokidarOpts
 }
 
-// const fileId = '729463' // non existing
-// const fileId = '796358' // existing
-// const fileId = '994133' // windows existing
-
 // Starting point
 const initialize = (type = 'vue') => {
   validateCommonArgs()
