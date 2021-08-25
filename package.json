@@ -2,8 +2,8 @@
   "name": "@pitcher/watcher",
   "version": "0.0.1",
   "scripts": {
-    "vue-watcher": "node src/vue --fileID=123456 --platform=ios --vueArgs='--inline-vue --skip-plugins pwa,apollo'",
-    "watcher": "node src/watcher --fileID=123456 --platform=ios",
+    "vue-watcher": "node src/vue --fileID=123456 --platform=ios",
+    "watcher": "node src/watcher --fileID=123456 --platform=ios --paths='src/' --ignored='utils/*'",
     "lint": "eslint ./src --fix"
   },
   "bin": {
