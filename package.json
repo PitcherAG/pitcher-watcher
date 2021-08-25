@@ -4,6 +4,7 @@
   "scripts": {
     "vue-watcher": "node src/vue --fileID=123456 --platform=ios",
     "watcher": "node src/watcher --fileID=123456 --platform=ios --paths='src/' --ignored='utils/*'",
+    "test:unit": "jest",
     "lint": "eslint ./src --fix"
   },
   "bin": {
@@ -19,6 +20,7 @@
     "babel-eslint": "^10.1.0",
     "eslint": "^7.28.0",
     "eslint-plugin-prettier": "^3.4.0",
+    "jest": "^27.0.6",
     "prettier": "^1.19.1"
   },
   "dependencies": {
