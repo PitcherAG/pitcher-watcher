@@ -40,9 +40,17 @@ const cleanDirectory = (path, showMessage = true) => {
   })
 }
 
-const bashCopy = (sources, dest) => {
+const bashCopy = (sources, dest, ignored) => {
+  let excludeScript = ''
+
+  // if any ignored, build exclude script
+  ignored.length && ignored.forEach((v) => (excludeScript += ` --exclude '${v}'`))
+
+  log('copying files...', 'grey')
+
+  // execute copy script for each path
   sources.forEach((src) => {
-    exec(`cp -R ${src} ${fixPath(dest)}`, (err) => {
+    exec(`rsync -r ${src} ${fixPath(dest)} ${excludeScript}`, (err) => {
       if (err) {
         error(`Something went wrong while cleaning the directory: ${dest}`)
         error(`${JSON.stringify(err)}`)
