@@ -75,6 +75,7 @@ const initialize = (type = 'vue') => {
   }
 
   /* Plain watcher */
+  parsedArgs.execAfter = args.execAfter
   parsedArgs.chokidarOpts = parseChokidarOpts()
 
   return parsedArgs

@@ -1,19 +1,33 @@
 #!/usr/bin/env node
 const chokidar = require('chokidar')
+const { exec } = require('child_process')
 const { initialize } = require('./init')
 const { findIOSAppDirectory } = require('./utils/ios-folder-finder')
 const { findWindowsAppDirectory } = require('./utils/win-folder-finder')
 const { cleanDirectory, bashCopy } = require('./utils/file-system')
 const { log, clog, error } = require('./utils/logger')
 
-const execWatcher = (chokidarOpts, destination, fileID, clean) => {
+const execWatcher = async (chokidarOpts, destination, fileID, clean, execAfter) => {
   const watcher = chokidar.watch(chokidarOpts.paths, chokidarOpts)
 
-  const copyFiles = () => {
+  const execAfterAction = async () => {
     // clean directory before
-    if (clean) cleanDirectory(destination, false)
+    if (clean) await cleanDirectory(destination, false)
 
-    bashCopy(chokidarOpts.paths, destination)
+    if (!execAfter) {
+      bashCopy(chokidarOpts.paths, destination, chokidarOpts.ignored)
+
+      return
+    }
+
+    exec(execAfter, (err) => {
+      log(`Executing script: ${execAfter}`, 'grey')
+      if (err) {
+        error(`Something went wrong the script: ${execAfter}`)
+        error(`${JSON.stringify(err)}`)
+        process.exit(1)
+      }
+    })
   }
 
   const initialLog = () => {
@@ -32,10 +46,10 @@ const execWatcher = (chokidarOpts, destination, fileID, clean) => {
     .on('unlink', (path) => log(`removed: ${path}`, 'red'))
     .on('change', (path) => {
       log(`changed: ${path}`, 'yellow')
-      copyFiles()
+      execAfterAction()
     })
     .on('ready', () => {
-      copyFiles()
+      execAfterAction()
       initialLog()
     })
     .on('error', (err) => error(`[ERROR]: Watcher error: ${err}`))
@@ -47,7 +61,7 @@ const execWatcher = (chokidarOpts, destination, fileID, clean) => {
 
 ;(async () => {
   // initialize application and get args
-  const { platform, fileID, dest, clean, chokidarOpts } = initialize('watcher')
+  const { platform, fileID, dest, clean, chokidarOpts, execAfter } = initialize('watcher')
 
   try {
     let destination = dest
@@ -61,7 +75,7 @@ const execWatcher = (chokidarOpts, destination, fileID, clean) => {
     }
 
     // if everything is fine until this point, start watcher
-    await execWatcher(chokidarOpts, destination, fileID, clean)
+    await execWatcher(chokidarOpts, destination, fileID, clean, execAfter)
   } catch (err) {
     error(err.message)
     process.exit(1)
