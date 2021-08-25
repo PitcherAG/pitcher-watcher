@@ -1,5 +1,5 @@
 const args = require('minimist')(process.argv.slice(2))
-const { error } = require('./utils/logger')
+const { log, clog, error } = require('./utils/logger')
 
 let shouldExit = false
 
@@ -51,8 +51,37 @@ const parseChokidarOpts = () => {
   return chokidarOpts
 }
 
+const showHelp = (type) => {
+  log(`Command list - ${type}`)
+  console.log()
+  // common args
+  clog('  --fileID', 'white', '- Interactive/UI fileID [required]')
+  clog('  --platform', 'white', '- Target platform to copy files [required]')
+  // eslint-disable-next-line prettier/prettier
+  clog('  --dest', 'white', '- Target folder to copy files [optional], NO NEED to use this unless you want to copy files to a static path')
+
+  if (type === 'watcher') {
+    clog('  --paths', 'white', `- Paths to watch ex: --paths='src/, lib/' (default: '.')`)
+    clog('  --execAfter', 'white', `- Script to execute after a change ex: --execAfter='echo hello'`)
+    clog('\n  Supports also any other argument that chokidar has: https://github.com/paulmillr/chokidar')
+  }
+
+  if (type === 'vue') {
+    // eslint-disable-next-line prettier/prettier
+    clog('  --vueArgs', 'white', `- Inject arguments to vue-cli command ex: --vueArgs='--target="lib", --inline-vue'`)
+  }
+
+  clog('\n  Check out documentation here: https://ui.pitcher.com')
+  console.log()
+}
+
 // Starting point
 const initialize = (type = 'vue') => {
+  if (args.h || args.help) {
+    showHelp(type)
+    process.exit()
+  }
+
   validateCommonArgs()
 
   // common args first
