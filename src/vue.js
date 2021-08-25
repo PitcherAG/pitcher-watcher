@@ -50,7 +50,7 @@ const execVueScript = async (vueArgs, destination) => {
     }
 
     if (clean) {
-      cleanDirectory(destination)
+      await cleanDirectory(destination)
     }
 
     // if everything is fine until this point, execute vue script

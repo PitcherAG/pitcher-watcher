@@ -11,27 +11,32 @@ const fixPath = (path) => path.replace(/(\[|\]|\s)/g, '\\$&')
 // cleaning with rm -rf
 // needs to be from bash because of the file system access rights on windows side
 const cleanDirectory = (path, showMessage = true) => {
-  let destination = fixPath(path)
+  return new Promise((resolve, reject) => {
+    let destination = fixPath(path)
 
-  // add trailing slash, needed for rm to only clean directory
-  destination += !destination.endsWith('/') ? '/*' : '*'
+    // add trailing slash, needed for rm to only clean directory
+    destination += !destination.endsWith('/') ? '/*' : '*'
 
-  if (isDirEmpty(path)) {
-    log('Directory is empty, skipping cleaning')
+    if (isDirEmpty(path)) {
+      log('Directory is empty, skipping cleaning')
+      resolve()
 
-    return
-  }
-
-  if (showMessage) {
-    log('Directory is not empty, cleaning...')
-  }
-
-  exec(`rm -rf ${destination}`, (err) => {
-    if (err) {
-      error(`Something went wrong while cleaning the directory: ${destination}`)
-      error(`${JSON.stringify(err)}`)
-      process.exit(1)
+      return
     }
+
+    if (showMessage) {
+      log('Directory is not empty, cleaning...')
+    }
+
+    exec(`rm -rf ${destination}`, (err) => {
+      if (err) {
+        error(`Something went wrong while cleaning the directory: ${destination}`)
+        reject(`${JSON.stringify(err)}`)
+        process.exit(1)
+      }
+
+      resolve()
+    })
   })
 }
 
