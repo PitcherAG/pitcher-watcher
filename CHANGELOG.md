@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/PitcherAG/pitcher-watcher/compare/v1.1.0...v1.2.0) (2021-08-27)
+
+
+### Features
+
+* test release ([9b5a4d7](https://github.com/PitcherAG/pitcher-watcher/commit/9b5a4d7dcdbf6c942598591cabca3fac700b6b70))
+
 # 1.0.0 (2021-08-27)
 
 
