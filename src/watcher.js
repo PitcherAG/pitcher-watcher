@@ -21,6 +21,8 @@ const execWatcher = async (chokidarOpts, destination, fileID, clean, execAfter) 
       return
     }
 
+    console.log('test tag')
+
     exec(execAfter, (err) => {
       log(`Executing script: ${execAfter}`, 'grey')
       if (err) {
