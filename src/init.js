@@ -45,6 +45,7 @@ const parseChokidarOpts = () => {
   chokidarOpts.paths = (paths && paths.split(',').map((val) => val.trim())) || ['.']
   chokidarOpts.ignored = (ignored && ignored.split(',').map((val) => val.trim())) || []
 
+  // add node_modules and files starting with dot to the ignore list by default
   !includeNodeModules && chokidarOpts.ignored.push(/node_modules/)
   !includeDotFiles && chokidarOpts.ignored.push('.*')
 
@@ -72,6 +73,7 @@ const showHelp = (type) => {
   }
 
   clog('\n  Check out documentation here: https://ui.pitcher.com')
+  console.log()
   console.log()
 }
 

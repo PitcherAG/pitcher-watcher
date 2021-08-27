@@ -39,6 +39,7 @@ const execVueScript = async (vueArgs, destination) => {
   const { platform, fileID, vueArgs, dest, clean } = initialize('vue')
 
   try {
+    // if user set the destination folder manually
     let destination = dest
 
     if (destination) log('Argument --dest provided manually, skipping folder search')

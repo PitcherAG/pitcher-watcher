@@ -11,7 +11,7 @@ const fixPath = (path) => path.replace(/(\[|\]|\s)/g, '\\$&')
 // cleaning with rm -rf
 // needs to be from bash because of the file system access rights on windows side
 const cleanDirectory = (path, showMessage = true) => {
-  return new Promise((resolve, reject) => {
+  return new Promise((resolve) => {
     let destination = fixPath(path)
 
     // add trailing slash, needed for rm to only clean directory
@@ -31,7 +31,7 @@ const cleanDirectory = (path, showMessage = true) => {
     exec(`rm -rf ${destination}`, (err) => {
       if (err) {
         error(`Something went wrong while cleaning the directory: ${destination}`)
-        reject(`${JSON.stringify(err)}`)
+        error(`${JSON.stringify(err)}`)
         process.exit(1)
       }
 
@@ -41,21 +41,22 @@ const cleanDirectory = (path, showMessage = true) => {
 }
 
 const bashCopy = (sources, dest, ignored) => {
-  let excludeScript = ''
+  return new Promise((resolve) => {
+    let excludeScript = ''
 
-  // if any ignored, build exclude script
-  ignored.length && ignored.forEach((v) => (excludeScript += ` --exclude '${v}'`))
+    // if any ignored, build exclude script
+    ignored.length && ignored.forEach((v) => (excludeScript += ` --exclude '${v}'`))
 
-  log('copying files...', 'grey')
-
-  // execute copy script for each path
-  sources.forEach((src) => {
-    exec(`rsync -r ${src} ${fixPath(dest)} ${excludeScript}`, (err) => {
+    // join each path with space
+    exec(`rsync -r ${sources.join(' ')} ${fixPath(dest)} ${excludeScript}`, (err) => {
       if (err) {
-        error(`Something went wrong while cleaning the directory: ${dest}`)
+        error(`Something went wrong while running the copy script!`)
         error(`${JSON.stringify(err)}`)
         process.exit(1)
       }
+
+      log('copied files', 'grey')
+      resolve()
     })
   })
 }

@@ -1,6 +1,15 @@
 {
   "name": "@pitcher/watcher",
-  "version": "0.0.1",
+  "version": "1.0.0",
+  "author": "Pitcher AG",
+  "homepage": "https://github.com/PitcherAG/pitcher-watcher#readme",
+  "bugs": {
+    "url": "https://github.com/PitcherAG/pitcher-watcher/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/PitcherAG/pitcher-watcher.git"
+  },
   "scripts": {
     "vue-watcher": "node src/vue --fileID=123456 --platform=ios",
     "watcher": "node src/watcher --fileID=123456 --platform=ios --paths='src/' --ignored='utils/*'",
