@@ -66,7 +66,7 @@ const getLocalStatePath = async (drive, user) => {
 
 // eslint-disable-next-line consistent-return
 const getWindowsWorkingDirectory = async (basePath, fileID) => {
-  const searchDirectories = ['zip', 'interfaces', 'slides']
+  const searchDirectories = ['zip', 'interfaces', 'slides', 'originals', 'surveys']
 
   for (const subfolder of searchDirectories) {
     const searchPath = `${basePath}/${subfolder}`
