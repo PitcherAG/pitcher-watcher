@@ -75,7 +75,7 @@ const showHelp = (type) => {
     clog('  --vueArgs', 'white', `- Inject arguments to vue-cli command ex: --vueArgs='--target="lib", --inline-vue'`)
   }
 
-  clog('\n  Check out documentation here: https://ui.pitcher.com')
+  clog('\n  Check out documentation here: https://ui.pitcher.com/docs/guides/helper-packages/pitcher-watcher.html')
   console.log()
   console.log()
 }
