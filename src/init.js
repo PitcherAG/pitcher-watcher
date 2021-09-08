@@ -63,6 +63,8 @@ const showHelp = (type) => {
 
   if (type === 'watcher') {
     clog('  --paths', 'white', `- Paths to watch ex: --paths='src/, lib/' (default: '.')`)
+    // eslint-disable-next-line prettier/prettier
+    clog('  --ignored', 'white', `- Paths to ignore ex: --ignored='utils/, *.json'. (Ignores node_modules and dot files by default)`)
     clog('  --execAfter', 'white', `- Script to execute after a change ex: --execAfter='echo hello'`)
     clog('\n  Supports also any other argument that chokidar has: https://github.com/paulmillr/chokidar')
   }
