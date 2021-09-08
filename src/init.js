@@ -58,6 +58,7 @@ const showHelp = (type) => {
   // common args
   clog('  --fileID', 'white', '- Interactive/UI fileID [required]')
   clog('  --platform', 'white', '- Target platform to copy files [required]')
+  clog('  --no-clean', 'white', '- Disable copying after a change')
   // eslint-disable-next-line prettier/prettier
   clog('  --dest', 'white', '- Target folder to copy files [optional], NO NEED to use this unless you want to copy files to a static path')
 
