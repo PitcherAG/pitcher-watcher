@@ -1,3 +1,13 @@
+# [1.3.0](https://github.com/PitcherAG/pitcher-watcher/compare/v1.2.0...v1.3.0) (2021-09-09)
+
+
+### Features
+
+* add documenation link to help ([51aa23a](https://github.com/PitcherAG/pitcher-watcher/commit/51aa23a0c63cdafeedcd2ece55b71f2748d576c1))
+* add ignored info to help ([0f154ec](https://github.com/PitcherAG/pitcher-watcher/commit/0f154ecb398919022de847f79b5dd04b08a8ffde))
+* add no-clean option to help ([a5fcd0e](https://github.com/PitcherAG/pitcher-watcher/commit/a5fcd0e64e70c75a09c3953f6d128c26de2a0b98))
+* include originals & surveys folders to be searched (windows) ([a83ac8f](https://github.com/PitcherAG/pitcher-watcher/commit/a83ac8f3b92e58d8d83985acdc95ee6614836676))
+
 # [1.2.0](https://github.com/PitcherAG/pitcher-watcher/compare/v1.1.0...v1.2.0) (2021-08-27)
 
 
