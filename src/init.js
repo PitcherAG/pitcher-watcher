@@ -23,10 +23,10 @@ const validateCommonArgs = () => {
   }
 
   // check mode
-  if (args.mode && !['hot', 'live', 'redirect', 'manual'].includes(args.mode)) {
-    warn(`[WARNING]: --mode=${args.mode} is invalid. Available arguments hot, live, redirect, manual`)
-    warn('[WARNING]: defaulting mode to: hot')
-    args.mode = 'hot'
+  if (args.watchMode && !['hot', 'live', 'redirect', 'manual'].includes(args.watchMode)) {
+    warn(`[WARNING]: --watchMode=${args.watchMode} is invalid. Available arguments hot, live, redirect, manual`)
+    warn('[WARNING]: defaulting watchMode to: hot')
+    args.watchMode = 'hot'
   }
 
   if (shouldExit) {
