@@ -1,14 +1,24 @@
 const http = require('http')
 const WebSocket = require('ws')
 const express = require('express')
-const { log } = require('../utils/logger')
+const portfinder = require('portfinder')
+const { log, error } = require('../utils/logger')
 
-const startServer = (port) => {
-  /*
-      TO DO:
-      check port first if available
-      https://github.com/http-party/node-portfinder
-  */
+// eslint-disable-next-line consistent-return
+const getFreePort = async (port) => {
+  try {
+    return await portfinder.getPortPromise({
+      port, // minimum port
+      stopPort: port + 1000, // maximum port
+    })
+  } catch (e) {
+    error('[ERROR]: Something went wrong when trying to find a free port for HMR server!')
+    error(e)
+  }
+}
+
+const startServer = async (_port) => {
+  const port = await getFreePort(_port)
   const app = express()
 
   app.get('/', (req, res) => {
@@ -27,10 +37,10 @@ const startServer = (port) => {
   // })
 
   server.listen(port, () => {
-    log(`HMR Server listening on port: ${server.address().port}`)
+    log(`HMR Server running on port: ${server.address().port}`)
   })
 
-  return { wss, server }
+  return { port, server, wss }
 }
 
 module.exports = startServer

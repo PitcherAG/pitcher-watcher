@@ -38,6 +38,7 @@
     "express": "^4.17.2",
     "inquirer": "^8.1.2",
     "ip": "^1.1.5",
-    "minimist": "^1.2.5"
+    "minimist": "^1.2.5",
+    "portfinder": "^1.0.28"
   }
 }
