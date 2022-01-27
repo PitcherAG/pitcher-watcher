@@ -104,8 +104,8 @@ const initialize = (type = 'vue') => {
     dest: args.dest !== undefined ? args.dest : undefined,
     hmr: {
       mode: args.watchMode || 'hot',
-      wsport: args.wsport || 8099
-    }
+      wsport: args.wsport || 8099,
+    },
   }
 
   /* Vue watcher */
