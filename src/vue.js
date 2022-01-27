@@ -6,7 +6,24 @@ const { findWindowsAppDirectory } = require('./utils/win-folder-finder')
 const { cleanDirectory } = require('./utils/file-system')
 const { log, error } = require('./utils/logger')
 
-const execVueScript = async (vueArgs, destination) => {
+const execServeScript = async (vueArgs, hmr) => {
+  // base script
+  const vueScript = `vue-cli-service serve ${vueArgs}`
+
+  log(`Executing script: ${vueScript}`, 'green')
+
+  const { stdout, stderr } = exec(`${vueScript} --color=always`, { env: { ...process.env, hmr: JSON.stringify(hmr) } })
+
+  stdout.pipe(process.stdout)
+  stderr.pipe(process.stderr)
+}
+
+const execBuildWatchScript = async (vueArgs, destination, clean, hmr) => {
+  // cleaning handled by this package, vue-cli should not delete anything
+  if (clean) {
+    await cleanDirectory(destination)
+  }
+
   const args = vueArgs.split('--').filter((a) => a)
 
   // if external vueArgs does not include mode, add mode development
@@ -24,7 +41,9 @@ const execVueScript = async (vueArgs, destination) => {
 
   log(`Executing script: ${vueScript}`, 'green')
   // cleaning handled by this package, vue-cli should not delete anything
-  const { stdout, stderr } = exec(`${vueScript} --color=always --no-clean`)
+  const { stdout, stderr } = exec(`${vueScript} --color=always --no-clean`, {
+    env: { ...process.env, hmr: JSON.stringify(hmr) },
+  })
 
   stdout.pipe(process.stdout)
   stderr.pipe(process.stderr)
@@ -36,7 +55,7 @@ const execVueScript = async (vueArgs, destination) => {
 
 ;(async () => {
   // initialize application and get args
-  const { platform, fileID, vueArgs, dest, clean } = initialize('vue')
+  const { platform, fileID, vueArgs, dest, clean, hmr } = initialize('vue')
 
   try {
     // if user set the destination folder manually
@@ -50,12 +69,15 @@ const execVueScript = async (vueArgs, destination) => {
       destination = await findWindowsAppDirectory(fileID)
     }
 
-    if (clean) {
-      await cleanDirectory(destination)
-    }
+    // save destination to use in HMR plugin later
+    hmr.destination = destination
 
-    // if everything is fine until this point, execute vue script
-    await execVueScript(vueArgs, destination)
+    // if everything is fine until this point, execute vue script depending on the mode
+    if (hmr.mode === 'redirect') {
+      await execServeScript(vueArgs, hmr)
+    } else {
+      await execBuildWatchScript(vueArgs, destination, clean, hmr)
+    }
   } catch (err) {
     error(err.message)
     process.exit(1)
