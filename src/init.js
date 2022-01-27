@@ -1,5 +1,5 @@
 const args = require('minimist')(process.argv.slice(2))
-const { log, clog, error } = require('./utils/logger')
+const { log, clog, error, warn } = require('./utils/logger')
 
 let shouldExit = false
 
@@ -20,6 +20,13 @@ const validateCommonArgs = () => {
   } else if (args && args.platform && !supportedPlatforms.includes(args.platform)) {
     error(`[ERROR]: Platform ${args.platform} is not supported!`)
     shouldExit = true
+  }
+
+  // check mode
+  if (args.mode && !['hot', 'live', 'redirect', 'manual'].includes(args.mode)) {
+    warn(`[WARNING]: --mode=${args.mode} is invalid. Available arguments hot, live, redirect, manual`)
+    warn('[WARNING]: defaulting mode to: hot')
+    args.mode = 'hot'
   }
 
   if (shouldExit) {
@@ -95,6 +102,10 @@ const initialize = (type = 'vue') => {
     fileID: args.fileID,
     clean: args.clean !== undefined ? args.clean : true,
     dest: args.dest !== undefined ? args.dest : undefined,
+    hmr: {
+      mode: args.watchMode || 'hot',
+      wsport: args.wsport || 8099
+    }
   }
 
   /* Vue watcher */
