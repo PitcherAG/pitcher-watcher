@@ -40,5 +40,8 @@
     "ip": "^1.1.5",
     "minimist": "^1.2.5",
     "portfinder": "^1.0.28"
+  },
+  "peerDependencies": {
+    "@vue/cli-service": "~4.3.0"
   }
 }
