@@ -44,7 +44,9 @@ if (process.env.VUE_APP_HMR) {
   const socket = new WebSocket(WS_URL)
 
   socket.onopen = () => {
-    console.log(`[@pitcher/watcher]: HMR enabled in port: ${process.env.VUE_APP_HMR_PORT}`)
+    console.log(
+      `[@pitcher/watcher]: HMR enabled in port: ${process.env.VUE_APP_HMR_PORT}, mode: ${process.env.VUE_APP_HMR_MODE}`
+    )
   }
 
   socket.onmessage = ({ data }) => {

@@ -19,6 +19,7 @@ class PitcherWatcherPlugin {
 
     if (this.isLiveOrHot) {
       process.env.VUE_APP_HMR = true
+      process.env.VUE_APP_HMR_MODE = this.mode
       process.env.VUE_APP_HMR_PORT = this.port
 
       // sets server and wss
