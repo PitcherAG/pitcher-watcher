@@ -1,52 +1,81 @@
 #!/usr/bin/env node
-const { exec } = require('child_process')
 const { initialize } = require('./init')
 const { findIOSAppDirectory } = require('./utils/ios-folder-finder')
 const { findWindowsAppDirectory } = require('./utils/win-folder-finder')
 const { cleanDirectory } = require('./utils/file-system')
 const { log, error } = require('./utils/logger')
+const vueService = require('@vue/cli-service')
+const getFreePort = require('./utils/port-finder')
+const PitcherWatcherPlugin = require('./hmr')
 
-const execServeScript = async (vueArgs, hmr) => {
+const execServe = async (destination) => {
   // base script
-  const vueScript = `vue-cli-service serve ${vueArgs}`
+  const vueScript = `vue-cli-service serve`
+  const service = new vueService(process.cwd())
 
   log(`Executing script: ${vueScript}`, 'green')
 
-  const { stdout, stderr } = exec(`${vueScript} --color=always`, { env: { ...process.env, hmr: JSON.stringify(hmr) } })
+  service.init('development')
 
-  stdout.pipe(process.stdout)
-  stderr.pipe(process.stderr)
+  // additional vue options
+  const vueOptions = {}
+
+  // run vue-cli programmatically
+  // eslint-disable-next-line no-unused-vars
+  service.run('serve', vueOptions).then(({ server, url }) => {
+    /*
+      TO DO:
+      manipulate index.html in destination
+    */
+  })
 }
 
-const execBuildWatchScript = async (vueArgs, destination, clean, hmr) => {
+const execBuildWatch = async (vueArgs, destination, clean, hmr) => {
   // cleaning handled by this package, vue-cli should not delete anything
   if (clean) {
     await cleanDirectory(destination)
   }
+const service = new vueService(process.cwd())
 
-  const args = vueArgs.split('--').filter((a) => a)
 
-  // if external vueArgs does not include mode, add mode development
-  !args.some((a) => a.includes('mode')) && args.unshift('mode development')
-  // if external vueArgs does not include dest, add default destination
-  !args.some((a) => a.includes('dest')) && args.push(`dest '${destination}'`)
-
-  // base script
-  let vueScript = 'NODE_ENV=development vue-cli-service build --watch'
-
-  // build script with args
-  args.forEach((arg) => {
-    vueScript += ` --${arg.trim()}`
-  })
+  // preview script
+  const vueScript = 'vue-cli-service build --watch'
 
   log(`Executing script: ${vueScript}`, 'green')
-  // cleaning handled by this package, vue-cli should not delete anything
-  const { stdout, stderr } = exec(`${vueScript} --color=always --no-clean`, {
-    env: { ...process.env, hmr: JSON.stringify(hmr) },
-  })
 
-  stdout.pipe(process.stdout)
-  stderr.pipe(process.stderr)
+  service.init('development')
+
+  // default options
+  const vueOptions = {
+    watch: true,
+    dest: destination,
+    // should always be false as watcher handles cleaning
+    clean: false,
+  }
+
+  // parse vueArgs & exclude mode and clean params as they are handled by watcher
+  vueArgs
+    .split('--')
+    .filter((arg) => arg && !arg.includes('mode') && !arg.includes('clean'))
+    .forEach((arg) => {
+      const splitted = arg.split(' ')
+
+      vueOptions[splitted[0].trim()] = splitted[1].trim()
+    })
+
+  const hmrPluginOptions = {
+    destination,
+    mode: hmr.mode,
+    port: await getFreePort(hmr.wsport),
+  }
+
+  // inject HMR plugin
+  service.projectOptions.configureWebpack.plugins = service.projectOptions.configureWebpack.plugins
+    ? service.projectOptions.configureWebpack.plugins.push(new PitcherWatcherPlugin(hmrPluginOptions))
+    : [new PitcherWatcherPlugin(hmrPluginOptions)]
+
+  // run build watch
+  service.run('build', vueOptions)
 }
 
 /******************/
@@ -55,7 +84,7 @@ const execBuildWatchScript = async (vueArgs, destination, clean, hmr) => {
 
 ;(async () => {
   // initialize application and get args
-  const { platform, fileID, vueArgs, dest, clean, hmr } = initialize('vue')
+  const { platform, fileID, dest, clean, vueArgs, hmr } = initialize('vue')
 
   try {
     // if user set the destination folder manually
@@ -69,14 +98,11 @@ const execBuildWatchScript = async (vueArgs, destination, clean, hmr) => {
       destination = await findWindowsAppDirectory(fileID)
     }
 
-    // save destination to use in HMR plugin later
-    hmr.destination = destination
-
     // if everything is fine until this point, execute vue script depending on the mode
     if (hmr.mode === 'redirect') {
-      await execServeScript(vueArgs, hmr)
+      await execServe(destination)
     } else {
-      await execBuildWatchScript(vueArgs, destination, clean, hmr)
+      await execBuildWatch(vueArgs, destination, clean, hmr)
     }
   } catch (err) {
     error(err.message)
