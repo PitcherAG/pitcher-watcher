@@ -63,7 +63,7 @@ if (process.env.VUE_APP_HMR) {
   var socket = new WebSocket(WS_URL);
   
   socket.onopen = function () {
-    console.log('[@pitcher/watcher]: HMR enabled in port: ' + process.env.VUE_APP_HMR_PORT + ', mode: ' + process.env.VUE_APP_HMR_MODE);
+    console.log('[@pitcher/watcher]: HMR enabled: ' + localIp + ':' + port + ', mode: ' + process.env.VUE_APP_HMR_MODE);
   };
   
   socket.onmessage = function (_ref) {
