@@ -1,13 +1,7 @@
 const { exec } = require('child_process')
 const { iOS_deviceSelectionPrompt, folderSelectionPrompt } = require('../prompts')
 const { log, error } = require('./logger')
-
-// gets the folder name with parent folder name
-const getNameForSelection = (path) => {
-  const secondLastIndex = path.lastIndexOf('/', path.lastIndexOf('/') - 1)
-
-  return path.substring(secondLastIndex + 1)
-}
+const { getFolderNameWithparent } = require('./file-system')
 
 const findActiveDevices = () => {
   return new Promise((resolve) => {
@@ -63,7 +57,7 @@ const findSimulatorAppWorkingDirectory = (deviceID, fileID) =>
           .split('\n')
           .filter((p) => p)
           .map((p) => ({
-            name: getNameForSelection(p),
+            name: getFolderNameWithparent(p),
             value: p,
           }))
 
