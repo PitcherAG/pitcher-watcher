@@ -1,6 +1,13 @@
 const { exec } = require('child_process')
-const { iOS_deviceSelectionPrompt } = require('../prompts')
+const { iOS_deviceSelectionPrompt, iOS_folderSelectionPrompt } = require('../prompts')
 const { log, error } = require('./logger')
+
+// gets the folder name with parent folder name
+const getNameForSelection = (path) => {
+  const secondLastIndex = path.lastIndexOf('/', path.lastIndexOf('/') - 1)
+
+  return path.substring(secondLastIndex + 1)
+}
 
 const findActiveDevices = () => {
   return new Promise((resolve) => {
@@ -36,7 +43,7 @@ const findActiveDevices = () => {
 const findSimulatorAppWorkingDirectory = (deviceID, fileID) =>
   new Promise((resolve, reject) => {
     exec(
-      `find ~/Library/Developer/CoreSimulator/Devices/${deviceID} -type d -name "${fileID}*" -print -quit`,
+      `find ~/Library/Developer/CoreSimulator/Devices/${deviceID} -type d -name "${fileID}*" -print`,
       (err, stdout) => {
         if (err) {
           error(`Something went wrong: ${JSON.stringify(err)}`)
@@ -51,7 +58,16 @@ const findSimulatorAppWorkingDirectory = (deviceID, fileID) =>
           process.exit(1)
         }
 
-        return resolve(stdout.slice(0, -1))
+        // map found folders
+        const paths = stdout
+          .split('\n')
+          .filter((p) => p)
+          .map((p) => ({
+            name: getNameForSelection(p),
+            value: p,
+          }))
+
+        return resolve(paths)
       }
     )
   })
@@ -65,7 +81,16 @@ const findIOSAppDirectory = async (fileID) => {
   const selectedDevice = devices.length > 1 ? await iOS_deviceSelectionPrompt(devices) : devices.pop()
 
   log(`Searching for folder that contains ${fileID} under Pitcher Folders/`)
-  const appDirectory = await findSimulatorAppWorkingDirectory(selectedDevice.udid, fileID)
+  const directories = await findSimulatorAppWorkingDirectory(selectedDevice.udid, fileID)
+
+  let appDirectory = null
+
+  if (directories.length > 1) {
+    log(`Found multiple folders that contains '${fileID}' in name`)
+    appDirectory = await iOS_folderSelectionPrompt(directories)
+  } else if (directories.length === 1) {
+    appDirectory = directories[0].value
+  }
 
   log(`Directory found: ${appDirectory}`)
 

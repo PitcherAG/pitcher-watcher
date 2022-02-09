@@ -35,8 +35,7 @@ const execBuildWatch = async (vueArgs, destination, clean, hmr) => {
   if (clean) {
     await cleanDirectory(destination)
   }
-const service = new vueService(process.cwd())
-
+  const service = new vueService(process.cwd())
 
   // preview script
   const vueScript = 'vue-cli-service build --watch'
