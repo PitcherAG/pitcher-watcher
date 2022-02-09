@@ -21,27 +21,6 @@ const iOS_deviceSelectionPrompt = (devices) => {
   })
 }
 
-const iOS_folderSelectionPrompt = (folders) => {
-  return new Promise((resolve) => {
-    inquirer
-      .prompt([
-        {
-          type: 'list',
-          name: 'folderSelection',
-          message: 'Select a folder: ',
-          default: folders[0],
-          choices: folders.map((f) => ({ name: `${f.name}`, value: f.value })),
-        },
-      ])
-      .then((answers) => {
-        return resolve(answers.folderSelection)
-      })
-      .catch((err) => {
-        throw new Error(`Something went wrong: ${err}`)
-      })
-  })
-}
-
 const win_driveSelectionPrompt = (drives) => {
   return new Promise((resolve) => {
     inquirer
@@ -84,9 +63,30 @@ const win_userSelectionPrompt = (users) => {
   })
 }
 
+const folderSelectionPrompt = (folders) => {
+  return new Promise((resolve) => {
+    inquirer
+      .prompt([
+        {
+          type: 'list',
+          name: 'folderSelection',
+          message: 'Select a folder: ',
+          default: folders[0],
+          choices: folders.map((f) => ({ name: `${f.name}`, value: f.value })),
+        },
+      ])
+      .then((answers) => {
+        return resolve(answers.folderSelection)
+      })
+      .catch((err) => {
+        throw new Error(`Something went wrong: ${err}`)
+      })
+  })
+}
+
 module.exports = {
   iOS_deviceSelectionPrompt,
-  iOS_folderSelectionPrompt,
   win_driveSelectionPrompt,
   win_userSelectionPrompt,
+  folderSelectionPrompt,
 }

@@ -1,5 +1,5 @@
 const { exec } = require('child_process')
-const { iOS_deviceSelectionPrompt, iOS_folderSelectionPrompt } = require('../prompts')
+const { iOS_deviceSelectionPrompt, folderSelectionPrompt } = require('../prompts')
 const { log, error } = require('./logger')
 
 // gets the folder name with parent folder name
@@ -87,7 +87,7 @@ const findIOSAppDirectory = async (fileID) => {
 
   if (directories.length > 1) {
     log(`Found multiple folders that contains '${fileID}' in name`)
-    appDirectory = await iOS_folderSelectionPrompt(directories)
+    appDirectory = await folderSelectionPrompt(directories)
   } else if (directories.length === 1) {
     appDirectory = directories[0].value
   }
