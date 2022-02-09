@@ -1,7 +1,8 @@
 const { exec } = require('child_process')
 const { readdir } = require('fs/promises')
-const { win_driveSelectionPrompt, win_userSelectionPrompt } = require('../prompts')
+const { win_driveSelectionPrompt, win_userSelectionPrompt, folderSelectionPrompt } = require('../prompts')
 const { log, error } = require('./logger')
+const { getFolderNameWithparent } = require('./file-system')
 
 const MAX_BUFFER_SIZE = 2000 * 1024
 
@@ -71,10 +72,17 @@ const getWindowsWorkingDirectory = async (basePath, fileID) => {
   for (const subfolder of searchDirectories) {
     const searchPath = `${basePath}/${subfolder}`
     const dir = await readdir(searchPath)
-    const found = dir.find((d) => d.includes(fileID))
+    const found = dir.filter((d) => d.includes(fileID))
 
-    if (found) {
-      return `${searchPath}/${found}`
+    if (found.length) {
+      return found.map((folder) => {
+        const fullPath = `${searchPath}/${folder}`
+
+        return {
+          name: getFolderNameWithparent(fullPath),
+          value: fullPath,
+        }
+      })
     }
   }
 
@@ -95,9 +103,16 @@ const findWindowsAppDirectory = async (fileID) => {
   const localStatePath = await getLocalStatePath(selectedDrive, selectedUser)
 
   log(`Searching for folder that contains ${fileID} under Pitcher Folders/`)
-  const appDirectory = await getWindowsWorkingDirectory(localStatePath, fileID)
+  const directories = await getWindowsWorkingDirectory(localStatePath, fileID)
 
-  log(`Directory found: ${appDirectory}`)
+  let appDirectory = null
+
+  if (directories.length > 1) {
+    log(`Found multiple folders that contains '${fileID}' in name`)
+    appDirectory = await folderSelectionPrompt(directories)
+  } else if (directories.length === 1) {
+    appDirectory = directories[0].value
+  }
 
   return appDirectory
 }
