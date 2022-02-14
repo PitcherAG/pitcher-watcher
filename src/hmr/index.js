@@ -1,3 +1,9 @@
+/**
+|--------------------------------------------------
+| Pitcher Watcher Webpack Plugin
+|--------------------------------------------------
+**/
+
 const startServer = require('./socket-server')
 const ip = require('ip')
 
@@ -8,11 +14,14 @@ class PitcherWatcherPlugin {
     // parse options
     this.port = options.port
     this.mode = options.mode || 'hot'
+    // destination of project files
     this.destination = options.destination
+    this.isLiveOrHot = ['hot', 'live'].includes(this.mode)
+    // server & websocket instances set by useHMR function
     this.server = undefined
     this.wss = undefined
-    this.isLiveOrHot = ['hot', 'live'].includes(this.mode)
 
+    // bundle files (js/css)
     this.files = {
       current: [],
       updated: [],
