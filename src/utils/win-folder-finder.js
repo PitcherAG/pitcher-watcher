@@ -6,8 +6,8 @@ const { getFolderNameWithparent } = require('./file-system')
 
 const MAX_BUFFER_SIZE = 2000 * 1024
 
-
-const cliScript = `osascript -e 'tell application "Finder"' -e 'try' -e 'mount volume "smb://Guest:@Windows\ 10._smb._tcp.local/[C]\ Windows\ 10"' -e 'end try' -e 'end tell'`
+const drivePath = 'smb://Guest:@Windows 10._smb._tcp.local/[C] Windows 10'
+const cliScript = `osascript -e 'tell application "Finder"' -e 'try' -e 'mount volume "${drivePath}"' -e 'end try' -e 'end tell'`
 
 const mountParallelsDrive = () => {
   return new Promise((resolve) => {
@@ -21,7 +21,7 @@ const mountParallelsDrive = () => {
 
       // success
       log('Mounted Parallels VM as network drive succesfully')
-      
+
       return resolve(true)
     })
   })
@@ -32,7 +32,9 @@ const fetchDisks = () => {
     exec('/bin/df -H | grep "//"', { maxBuffer: MAX_BUFFER_SIZE }, (err, stdout) => {
       if (err) {
         error(`[ERROR]: Make sure you are running Parallels Machine and mounted the VM drive as network drive!`)
-        error(`[ERROR]: Check details on docs: https://ui.pitcher.com/docs/guides/helper-packages/pitcher-watcher.html#prerequisites`)
+        error(
+          `[ERROR]: Check details on docs: https://ui.pitcher.com/docs/guides/helper-packages/pitcher-watcher.html#prerequisites`
+        )
         error(`${JSON.stringify(err)}`)
         process.exit(1)
       }
