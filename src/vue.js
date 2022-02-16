@@ -1,34 +1,12 @@
 #!/usr/bin/env node
+const vueService = require('@vue/cli-service')
 const { initialize } = require('./init')
 const { findIOSAppDirectory } = require('./utils/ios-folder-finder')
 const { findWindowsAppDirectory } = require('./utils/win-folder-finder')
 const { cleanDirectory } = require('./utils/file-system')
 const { log, error } = require('./utils/logger')
-const vueService = require('@vue/cli-service')
 const getFreePort = require('./utils/port-finder')
 const PitcherWatcherPlugin = require('./hmr')
-
-const execServe = async (destination) => {
-  // base script
-  const vueScript = `vue-cli-service serve`
-  const service = new vueService(process.cwd())
-
-  log(`Executing script: ${vueScript}`, 'green')
-
-  service.init('development')
-
-  // additional vue options
-  const vueOptions = {}
-
-  // run vue-cli programmatically
-  // eslint-disable-next-line no-unused-vars
-  service.run('serve', vueOptions).then(({ server, url }) => {
-    /*
-      TO DO:
-      manipulate index.html in destination
-    */
-  })
-}
 
 const execBuildWatch = async (vueArgs, destination, clean, hmr) => {
   // cleaning handled by this package, vue-cli should not delete anything
@@ -69,6 +47,8 @@ const execBuildWatch = async (vueArgs, destination, clean, hmr) => {
   }
 
   // inject HMR plugin
+  // if plugins already exist, push the plugin
+  // otherwise create an array which including the plugin
   service.projectOptions.configureWebpack.plugins = service.projectOptions.configureWebpack.plugins
     ? service.projectOptions.configureWebpack.plugins.push(new PitcherWatcherPlugin(hmrPluginOptions))
     : [new PitcherWatcherPlugin(hmrPluginOptions)]
@@ -97,12 +77,8 @@ const execBuildWatch = async (vueArgs, destination, clean, hmr) => {
       destination = await findWindowsAppDirectory(fileID)
     }
 
-    // if everything is fine until this point, execute vue script depending on the mode
-    if (hmr.mode === 'redirect') {
-      await execServe(destination)
-    } else {
-      await execBuildWatch(vueArgs, destination, clean, hmr)
-    }
+    // if everything is fine until this point, execute vue script
+    await execBuildWatch(vueArgs, destination, clean, hmr)
   } catch (err) {
     error(err.message)
     process.exit(1)
