@@ -42,6 +42,7 @@
     "portfinder": "^1.0.28"
   },
   "peerDependencies": {
-    "@vue/cli-service": "~4.3.0"
+    "@vue/cli-service": "~4.3.0",
+    "@pitcher/vue-cli-plugin-pitcherify": "~0.4.0"
   }
 }
