@@ -36,34 +36,33 @@ const findActiveDevices = () => {
 
 const findSimulatorAppWorkingDirectory = (deviceID, fileID) =>
   new Promise((resolve, reject) => {
-    exec(
-      `find ~/Library/Developer/CoreSimulator/Devices/${deviceID} -type d -name "${fileID}*" -print`,
-      (err, stdout) => {
-        if (err) {
-          error(`Something went wrong: ${JSON.stringify(err)}`)
+    const searchPath = `~/Library/Developer/CoreSimulator/Devices/${deviceID}/data/Containers/Data/Application`
 
-          return reject(err)
-        }
+    exec(`find ${searchPath} -type d -name "${fileID}*" -print`, (err, stdout) => {
+      if (err) {
+        error(`Something went wrong: ${JSON.stringify(err)}`)
 
-        if (!stdout) {
-          error(`File ID: ${fileID}`)
-          error(`Device ID: ${deviceID}`)
-          error(`[ERROR]: Could not find a folder that contains ${fileID} in /Pitcher Folders/!`)
-          process.exit(1)
-        }
-
-        // map found folders
-        const paths = stdout
-          .split('\n')
-          .filter((p) => p)
-          .map((p) => ({
-            name: getFolderNameWithparent(p),
-            value: p,
-          }))
-
-        return resolve(paths)
+        return reject(err)
       }
-    )
+
+      if (!stdout) {
+        error(`File ID: ${fileID}`)
+        error(`Device ID: ${deviceID}`)
+        error(`[ERROR]: Could not find a folder that contains ${fileID} in /Pitcher Folders/!`)
+        process.exit(1)
+      }
+
+      // map found folders
+      const paths = stdout
+        .split('\n')
+        .filter((p) => p)
+        .map((p) => ({
+          name: getFolderNameWithparent(p),
+          value: p,
+        }))
+
+      return resolve(paths)
+    })
   })
 
 const findIOSAppDirectory = async (fileID) => {
