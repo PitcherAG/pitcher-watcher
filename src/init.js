@@ -70,6 +70,8 @@ const showHelp = (type) => {
   clog('  --no-clean', 'white', '- Disable copying after a change')
   // eslint-disable-next-line prettier/prettier
   clog('  --dest', 'white', '- Target folder to copy files [optional], NO NEED to use this unless you want to copy files to a static path')
+  clog('  --watchMode', 'white', `- Watcher mode for HMR, ex: hot | live | manual (default: hot)`)
+  clog('  --wsport', 'white', `- HMR server port, finds first available port starting from 8099 (default: 8099)`)
 
   if (type === 'watcher') {
     clog('  --paths', 'white', `- Paths to watch ex: --paths='src/, lib/' (default: '.')`)
@@ -82,8 +84,6 @@ const showHelp = (type) => {
   if (type === 'vue') {
     // eslint-disable-next-line prettier/prettier
     clog('  --vueArgs', 'white', `- Inject arguments to vue-cli command ex: --vueArgs='--target="lib", --inline-vue'`)
-    clog('  --watchMode', 'white', `- Watcher mode for HMR, ex: hot | live | manual (default: hot)`)
-    clog('  --wsport', 'white', `- HMR server port, finds first available port starting from 8099 (default: 8099)`)
   }
 
   clog('\n  Check out documentation here: https://ui.pitcher.com/docs/guides/helper-packages/pitcher-watcher.html')
