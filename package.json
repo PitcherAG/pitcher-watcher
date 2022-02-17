@@ -39,7 +39,8 @@
     "inquirer": "^8.1.2",
     "ip": "^1.1.5",
     "minimist": "^1.2.5",
-    "portfinder": "^1.0.28"
+    "portfinder": "^1.0.28",
+    "ws": "^8.5.0"
   },
   "peerDependencies": {
     "@vue/cli-service": "~4.3.0",
