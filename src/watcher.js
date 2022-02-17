@@ -74,7 +74,7 @@ const execWatcher = async (chokidarOpts, destination, fileID, clean, execAfter, 
       copyTimer = setTimeout(() => {
         changedFiles.forEach((filePath) => log(`changed: ${filePath}`, 'yellow'))
         execAfterAction()
-      }, 600)
+      }, 500)
     })
     .on('ready', async () => {
       await execAfterAction()
