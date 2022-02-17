@@ -41,7 +41,7 @@ const execBuildWatch = async (vueArgs, destination, clean, hmr) => {
 
   const hmrPluginOptions = {
     destination,
-    ...hmr
+    ...hmr,
   }
 
   // inject HMR plugin
