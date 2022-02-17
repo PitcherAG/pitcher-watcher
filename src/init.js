@@ -1,5 +1,7 @@
+const ip = require('ip')
 const args = require('minimist')(process.argv.slice(2))
 const { log, clog, error, warn } = require('./utils/logger')
+const getFreePort = require('./utils/port-finder')
 
 let shouldExit = false
 
@@ -90,7 +92,7 @@ const showHelp = (type) => {
 }
 
 // Starting point
-const initialize = (type = 'vue') => {
+const initialize = async (type = 'vue') => {
   if (args.h || args.help) {
     showHelp(type)
     process.exit()
@@ -106,8 +108,15 @@ const initialize = (type = 'vue') => {
     dest: args.dest !== undefined ? args.dest : undefined,
     hmr: {
       mode: args.watchMode || 'hot',
-      wsport: args.wsport || 8099,
+      port: args.wsport || 8099,
+      ip: undefined,
     },
+  }
+
+  // set port & ip address if HMR is active
+  if (['hot', 'live'].includes(parsedArgs.hmr.mode)) {
+    parsedArgs.hmr.port = await getFreePort(parsedArgs.hmr.port)
+    parsedArgs.hmr.ip = ip.address()
   }
 
   /* Vue watcher */

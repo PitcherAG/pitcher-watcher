@@ -5,7 +5,6 @@ const { findIOSAppDirectory } = require('./utils/ios-folder-finder')
 const { findWindowsAppDirectory } = require('./utils/win-folder-finder')
 const { cleanDirectory } = require('./utils/file-system')
 const { log, error } = require('./utils/logger')
-const getFreePort = require('./utils/port-finder')
 const PitcherWatcherPlugin = require('./hmr')
 
 const execBuildWatch = async (vueArgs, destination, clean, hmr) => {
@@ -42,8 +41,7 @@ const execBuildWatch = async (vueArgs, destination, clean, hmr) => {
 
   const hmrPluginOptions = {
     destination,
-    mode: hmr.mode,
-    port: await getFreePort(hmr.wsport),
+    ...hmr
   }
 
   // inject HMR plugin
@@ -63,7 +61,7 @@ const execBuildWatch = async (vueArgs, destination, clean, hmr) => {
 
 ;(async () => {
   // initialize application and get args
-  const { platform, fileID, dest, clean, vueArgs, hmr } = initialize('vue')
+  const { platform, fileID, dest, clean, vueArgs, hmr } = await initialize('vue')
 
   try {
     // if user set the destination folder manually
