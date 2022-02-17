@@ -40,7 +40,7 @@ const cleanDirectory = (path, showMessage = true) => {
   })
 }
 
-const bashCopy = (sources, dest, ignored) => {
+const bashCopy = (sources, dest, ignored = []) => {
   return new Promise((resolve) => {
     let excludeScript = ''
 
@@ -55,7 +55,7 @@ const bashCopy = (sources, dest, ignored) => {
         process.exit(1)
       }
 
-      log('copied files', 'grey')
+      log('copied files', 'magenta')
       resolve()
     })
   })
