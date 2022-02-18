@@ -1,3 +1,22 @@
+# [1.4.0](https://github.com/PitcherAG/pitcher-watcher/compare/v1.3.0...v1.4.0) (2022-02-18)
+
+
+### Bug Fixes
+
+* convert hmr-helper to ES5 in order to work in IE11 ([a26d051](https://github.com/PitcherAG/pitcher-watcher/commit/a26d051694a19a8c0b289b2b52980de8586e73d4))
+
+
+### Features
+
+* add multiple folder selection support ([27b17fa](https://github.com/PitcherAG/pitcher-watcher/commit/27b17faed89275f686c6e027259850c628f32ff6))
+* added HMR support for legacy projects with watcher ([3a70ab9](https://github.com/PitcherAG/pitcher-watcher/commit/3a70ab9844248e5777f139947b7033d2b2c2c559))
+* added socket server to communicate with client ([ca8fd34](https://github.com/PitcherAG/pitcher-watcher/commit/ca8fd3491f262a505c535431dd963a05d5ab4f7f))
+* hmr helper for client side added ([845d7a6](https://github.com/PitcherAG/pitcher-watcher/commit/845d7a6902c7e44c837ae588fd4a30fd1b34d35d))
+* hmr plugin for webpack added ([62a4f1f](https://github.com/PitcherAG/pitcher-watcher/commit/62a4f1fc3fbf098f777001cb318d4c0bb3f76115))
+* support automounting windows drive ([8a5c47d](https://github.com/PitcherAG/pitcher-watcher/commit/8a5c47d1d1e3ae730464e97b3cfdd57f21c206b1))
+* vue command now uses vue/cli service to execute commands ([89fb891](https://github.com/PitcherAG/pitcher-watcher/commit/89fb891fb7483e345488e0378bb7979265b97059))
+* windows folder finder supports finding multiple folders ([434b547](https://github.com/PitcherAG/pitcher-watcher/commit/434b5472d8f9aead4a03845499b8776aab723356))
+
 # [1.3.0](https://github.com/PitcherAG/pitcher-watcher/compare/v1.2.0...v1.3.0) (2021-09-09)
 
 
