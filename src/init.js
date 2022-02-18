@@ -1,5 +1,7 @@
+const ip = require('ip')
 const args = require('minimist')(process.argv.slice(2))
-const { log, clog, error } = require('./utils/logger')
+const { log, clog, error, warn } = require('./utils/logger')
+const getFreePort = require('./utils/port-finder')
 
 let shouldExit = false
 
@@ -20,6 +22,13 @@ const validateCommonArgs = () => {
   } else if (args && args.platform && !supportedPlatforms.includes(args.platform)) {
     error(`[ERROR]: Platform ${args.platform} is not supported!`)
     shouldExit = true
+  }
+
+  // check mode
+  if (args.watchMode && !['hot', 'live', 'manual'].includes(args.watchMode)) {
+    warn(`--watchMode=${args.watchMode} is invalid. Available arguments hot, live, manual`)
+    warn('defaulting watchMode to: hot')
+    args.watchMode = 'hot'
   }
 
   if (shouldExit) {
@@ -61,6 +70,8 @@ const showHelp = (type) => {
   clog('  --no-clean', 'white', '- Disable copying after a change')
   // eslint-disable-next-line prettier/prettier
   clog('  --dest', 'white', '- Target folder to copy files [optional], NO NEED to use this unless you want to copy files to a static path')
+  clog('  --watchMode', 'white', `- Watcher mode for HMR, ex: hot | live | manual (default: hot)`)
+  clog('  --wsport', 'white', `- HMR server port, finds first available port starting from 8099 (default: 8099)`)
 
   if (type === 'watcher') {
     clog('  --paths', 'white', `- Paths to watch ex: --paths='src/, lib/' (default: '.')`)
@@ -81,7 +92,7 @@ const showHelp = (type) => {
 }
 
 // Starting point
-const initialize = (type = 'vue') => {
+const initialize = async (type = 'vue') => {
   if (args.h || args.help) {
     showHelp(type)
     process.exit()
@@ -95,6 +106,17 @@ const initialize = (type = 'vue') => {
     fileID: args.fileID,
     clean: args.clean !== undefined ? args.clean : true,
     dest: args.dest !== undefined ? args.dest : undefined,
+    hmr: {
+      mode: args.watchMode || 'hot',
+      port: args.wsport || 8099,
+      ip: undefined,
+    },
+  }
+
+  // set port & ip address if HMR is active
+  if (['hot', 'live'].includes(parsedArgs.hmr.mode)) {
+    parsedArgs.hmr.port = await getFreePort(parsedArgs.hmr.port)
+    parsedArgs.hmr.ip = ip.address()
   }
 
   /* Vue watcher */

@@ -1,15 +1,40 @@
 const { exec } = require('child_process')
 const { readdir } = require('fs/promises')
-const { win_driveSelectionPrompt, win_userSelectionPrompt } = require('../prompts')
-const { log, error } = require('./logger')
+const { win_driveSelectionPrompt, win_userSelectionPrompt, folderSelectionPrompt } = require('../prompts')
+const { log, error, warn } = require('./logger')
+const { getFolderNameWithParent } = require('./file-system')
 
 const MAX_BUFFER_SIZE = 2000 * 1024
+
+const drivePath = 'smb://Guest:@Windows 10._smb._tcp.local/[C] Windows 10'
+const cliScript = `osascript -e 'tell application "Finder"' -e 'try' -e 'mount volume "${drivePath}"' -e 'end try' -e 'end tell'`
+
+const mountParallelsDrive = () => {
+  return new Promise((resolve) => {
+    exec(cliScript, { timeout: 1000 }, (err) => {
+      // Could not mount
+      if (err) {
+        warn(`Could not mount Parallels VM as a network drive!`)
+
+        return resolve(false)
+      }
+
+      // success
+      log('Mounted Parallels VM as network drive succesfully')
+
+      return resolve(true)
+    })
+  })
+}
 
 const fetchDisks = () => {
   return new Promise((resolve) => {
     exec('/bin/df -H | grep "//"', { maxBuffer: MAX_BUFFER_SIZE }, (err, stdout) => {
       if (err) {
         error(`[ERROR]: Make sure you are running Parallels Machine and mounted the VM drive as network drive!`)
+        error(
+          `[ERROR]: Check details on docs: https://ui.pitcher.com/docs/guides/helper-packages/pitcher-watcher.html#prerequisites`
+        )
         error(`${JSON.stringify(err)}`)
         process.exit(1)
       }
@@ -71,10 +96,17 @@ const getWindowsWorkingDirectory = async (basePath, fileID) => {
   for (const subfolder of searchDirectories) {
     const searchPath = `${basePath}/${subfolder}`
     const dir = await readdir(searchPath)
-    const found = dir.find((d) => d.includes(fileID))
+    const found = dir.filter((d) => d.includes(fileID))
 
-    if (found) {
-      return `${searchPath}/${found}`
+    if (found.length) {
+      return found.map((folder) => {
+        const fullPath = `${searchPath}/${folder}`
+
+        return {
+          name: getFolderNameWithParent(fullPath),
+          value: fullPath,
+        }
+      })
     }
   }
 
@@ -83,6 +115,9 @@ const getWindowsWorkingDirectory = async (basePath, fileID) => {
 }
 
 const findWindowsAppDirectory = async (fileID) => {
+  log('Trying to mount Parallels VM as a network drive')
+  await mountParallelsDrive()
+
   log('Searching for available network drives')
   const driveList = await listDrives()
   const selectedDrive = await win_driveSelectionPrompt(driveList)
@@ -95,9 +130,16 @@ const findWindowsAppDirectory = async (fileID) => {
   const localStatePath = await getLocalStatePath(selectedDrive, selectedUser)
 
   log(`Searching for folder that contains ${fileID} under Pitcher Folders/`)
-  const appDirectory = await getWindowsWorkingDirectory(localStatePath, fileID)
+  const directories = await getWindowsWorkingDirectory(localStatePath, fileID)
 
-  log(`Directory found: ${appDirectory}`)
+  let appDirectory = null
+
+  if (directories.length > 1) {
+    log(`Found multiple folders that contains '${fileID}' in name`)
+    appDirectory = await folderSelectionPrompt(directories)
+  } else if (directories.length === 1) {
+    appDirectory = directories[0].value
+  }
 
   return appDirectory
 }
