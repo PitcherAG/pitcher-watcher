@@ -18,7 +18,7 @@ class PitcherWatcherPlugin {
     this.isLiveOrHot = ['hot', 'live'].includes(this.mode)
     // server & websocket instances set by useHMR function
     this.server = undefined
-    this.wss = undefined
+    this.ws = undefined
 
     // bundle files (js/css)
     this.files = {
@@ -32,7 +32,7 @@ class PitcherWatcherPlugin {
       process.env.VUE_APP_HMR_IP = this.ip
       process.env.VUE_APP_HMR_PORT = this.port
 
-      // sets server and wss
+      // sets server and web sockets
       this.useHMR()
     }
   }
@@ -63,7 +63,7 @@ class PitcherWatcherPlugin {
       this.files.updated = filteredFiles
 
       // Send message to each client
-      this.wss.clients.forEach((client) => {
+      this.ws.clients.forEach((client) => {
         if (this.mode === 'hot') {
           client.send(JSON.stringify({ event: 'HOT_RELOAD', files: this.files }))
 
@@ -77,10 +77,10 @@ class PitcherWatcherPlugin {
     })
   }
   useHMR() {
-    const { server, wss } = startServer(this.port)
+    const { server, ws } = startServer(this.port)
 
     this.server = server
-    this.wss = wss
+    this.ws = ws
   }
 }
 

@@ -42,7 +42,7 @@ const execWatcher = async (chokidarOpts, destination, fileID, clean, execAfter, 
         // move helper.js to destination & inject to index.html file
         await useHtmlInject(hmr, destination)
         // emit changes through websocket server
-        emitChangesToClients(socketServer.wss, hmr.mode, changedFiles)
+        emitChangesToClients(socketServer.ws, hmr.mode, changedFiles)
       }
 
       // clear changed file list copy operation

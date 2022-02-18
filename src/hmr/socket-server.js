@@ -12,13 +12,13 @@ const startServer = (port) => {
   })
 
   const server = http.createServer(app)
-  const wss = new WebSocket.Server({ server })
+  const ws = new WebSocket.Server({ server })
 
   server.listen(port, () => {
     clog('\n[@pitcher/watcher]:', 'white', `HMR Server running on port: ${server.address().port}`, 'cyan')
   })
 
-  return { server, wss }
+  return { server, ws }
 }
 
 module.exports = startServer
