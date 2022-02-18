@@ -1,6 +1,7 @@
 const { exec } = require('child_process')
-const { iOS_deviceSelectionPrompt } = require('../prompts')
+const { iOS_deviceSelectionPrompt, folderSelectionPrompt } = require('../prompts')
 const { log, error } = require('./logger')
+const { getFolderNameWithParent } = require('./file-system')
 
 const findActiveDevices = () => {
   return new Promise((resolve) => {
@@ -35,25 +36,33 @@ const findActiveDevices = () => {
 
 const findSimulatorAppWorkingDirectory = (deviceID, fileID) =>
   new Promise((resolve, reject) => {
-    exec(
-      `find ~/Library/Developer/CoreSimulator/Devices/${deviceID} -type d -name "${fileID}*" -print -quit`,
-      (err, stdout) => {
-        if (err) {
-          error(`Something went wrong: ${JSON.stringify(err)}`)
+    const searchPath = `~/Library/Developer/CoreSimulator/Devices/${deviceID}/data/Containers/Data/Application`
 
-          return reject(err)
-        }
+    exec(`find ${searchPath} -type d -name "${fileID}*" -print`, (err, stdout) => {
+      if (err) {
+        error(`Something went wrong: ${JSON.stringify(err)}`)
 
-        if (!stdout) {
-          error(`File ID: ${fileID}`)
-          error(`Device ID: ${deviceID}`)
-          error(`[ERROR]: Could not find a folder that contains ${fileID} in /Pitcher Folders/!`)
-          process.exit(1)
-        }
-
-        return resolve(stdout.slice(0, -1))
+        return reject(err)
       }
-    )
+
+      if (!stdout) {
+        error(`File ID: ${fileID}`)
+        error(`Device ID: ${deviceID}`)
+        error(`[ERROR]: Could not find a folder that contains ${fileID} in /Pitcher Folders/!`)
+        process.exit(1)
+      }
+
+      // map found folders
+      const paths = stdout
+        .split('\n')
+        .filter((p) => p)
+        .map((p) => ({
+          name: getFolderNameWithParent(p),
+          value: p,
+        }))
+
+      return resolve(paths)
+    })
   })
 
 const findIOSAppDirectory = async (fileID) => {
@@ -65,7 +74,16 @@ const findIOSAppDirectory = async (fileID) => {
   const selectedDevice = devices.length > 1 ? await iOS_deviceSelectionPrompt(devices) : devices.pop()
 
   log(`Searching for folder that contains ${fileID} under Pitcher Folders/`)
-  const appDirectory = await findSimulatorAppWorkingDirectory(selectedDevice.udid, fileID)
+  const directories = await findSimulatorAppWorkingDirectory(selectedDevice.udid, fileID)
+
+  let appDirectory = null
+
+  if (directories.length > 1) {
+    log(`Found multiple folders that contains '${fileID}' in name`)
+    appDirectory = await folderSelectionPrompt(directories)
+  } else if (directories.length === 1) {
+    appDirectory = directories[0].value
+  }
 
   log(`Directory found: ${appDirectory}`)
 

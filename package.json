@@ -35,7 +35,15 @@
   "dependencies": {
     "chalk": "^4.1.2",
     "chokidar": "^3.5.2",
+    "express": "^4.17.2",
     "inquirer": "^8.1.2",
-    "minimist": "^1.2.5"
+    "ip": "^1.1.5",
+    "minimist": "^1.2.5",
+    "portfinder": "^1.0.28",
+    "ws": "^8.5.0"
+  },
+  "peerDependencies": {
+    "@vue/cli-service": "~4.3.0",
+    "@pitcher/vue-cli-plugin-pitcherify": "~0.4.0"
   }
 }
