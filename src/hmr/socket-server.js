@@ -14,14 +14,6 @@ const startServer = (port) => {
   const server = http.createServer(app)
   const wss = new WebSocket.Server({ server })
 
-  // Example of wss listener
-  // wss.on('connection', (ws) => {
-  //   ws.on('message', (msg) => {
-  //     // received message
-  //     console.log('received: %s', msg)
-  //   })
-  // })
-
   server.listen(port, () => {
     clog('\n[@pitcher/watcher]:', 'white', `HMR Server running on port: ${server.address().port}`, 'cyan')
   })
