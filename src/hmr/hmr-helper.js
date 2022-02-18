@@ -1,7 +1,7 @@
 /* eslint-disable prefer-template, prettier/prettier, no-var */
 
 /** Used for Vue based projects
-  * IMPORTANT NOTE: This file must to be ES5 compatible
+  * IMPORTANT NOTE: This file must be ES5 compatible
 **/
 
 'use strict';

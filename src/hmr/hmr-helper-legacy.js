@@ -1,7 +1,7 @@
 /* eslint-disable prefer-template, prettier/prettier, no-var, consistent-return, object-shorthand, eqeqeq */
 
 /** Used for Legacy projects
-  * IMPORTANT NOTE: This file must to be ES5 compatible
+  * IMPORTANT NOTE: This file must be ES5 compatible
 **/
 
 'use strict';
