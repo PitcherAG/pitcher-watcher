@@ -2,7 +2,7 @@ const { exec } = require('child_process')
 const { readdir } = require('fs/promises')
 const { win_driveSelectionPrompt, win_userSelectionPrompt, folderSelectionPrompt } = require('../prompts')
 const { log, error, warn } = require('./logger')
-const { getFolderNameWithparent } = require('./file-system')
+const { getFolderNameWithParent } = require('./file-system')
 
 const MAX_BUFFER_SIZE = 2000 * 1024
 
@@ -103,7 +103,7 @@ const getWindowsWorkingDirectory = async (basePath, fileID) => {
         const fullPath = `${searchPath}/${folder}`
 
         return {
-          name: getFolderNameWithparent(fullPath),
+          name: getFolderNameWithParent(fullPath),
           value: fullPath,
         }
       })

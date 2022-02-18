@@ -62,7 +62,7 @@ const bashCopy = (sources, dest, ignored = []) => {
 }
 
 // gets the folder name with parent folder name
-const getFolderNameWithparent = (path) => {
+const getFolderNameWithParent = (path) => {
   const secondLastIndex = path.lastIndexOf('/', path.lastIndexOf('/') - 1)
 
   return path.substring(secondLastIndex + 1)
@@ -73,5 +73,5 @@ module.exports = {
   dirExist,
   cleanDirectory,
   bashCopy,
-  getFolderNameWithparent,
+  getFolderNameWithParent,
 }
