@@ -50,10 +50,10 @@ const useHtmlInject = async (hmr, destination) => {
 const parseFileName = (path) => path.substring(path.lastIndexOf('/') + 1)
 
 const emitChangesToClients = (wss, mode, changedFiles) => {
+  const filesToEmit = Array.from(changedFiles).map((p) => parseFileName(p))
+
   wss.clients.forEach((client) => {
     if (mode === 'hot') {
-      const filesToEmit = Array.from(changedFiles).map((p) => parseFileName(p))
-
       client.send(JSON.stringify({ event: 'HOT_RELOAD', files: filesToEmit }))
 
       return
