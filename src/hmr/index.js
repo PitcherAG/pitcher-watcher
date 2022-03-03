@@ -49,7 +49,7 @@ class PitcherWatcherPlugin {
     })
 
     const extensions = ['.js', '.css']
-    const blocked = ['hmr_helper', 'polyfill', 'chunk-vendors']
+    const blocked = ['hmr_helper', 'polyfill']
 
     // Emit global message through Node.js when compiled
     compiler.hooks.done.tap(pluginName, (stats) => {
