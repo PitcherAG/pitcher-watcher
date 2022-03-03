@@ -1,3 +1,11 @@
+## [1.4.1](https://github.com/PitcherAG/pitcher-watcher/compare/v1.4.0...v1.4.1) (2022-03-03)
+
+
+### Bug Fixes
+
+* add chunk-vendors to emit updates list ([ae74a3b](https://github.com/PitcherAG/pitcher-watcher/commit/ae74a3bdf9a9d77cb04990cd9dab056f8b873830))
+* add linkedom to package.json ([e989d09](https://github.com/PitcherAG/pitcher-watcher/commit/e989d09475b219826d88d4b85cabca21aef5e785))
+
 # [1.4.0](https://github.com/PitcherAG/pitcher-watcher/compare/v1.3.0...v1.4.0) (2022-02-18)
 
 
