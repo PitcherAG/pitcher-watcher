@@ -1,3 +1,11 @@
+## [1.4.2](https://github.com/PitcherAG/pitcher-watcher/compare/v1.4.1...v1.4.2) (2022-03-25)
+
+
+### Bug Fixes
+
+* configureWebpack missing bug ([b2ca825](https://github.com/PitcherAG/pitcher-watcher/commit/b2ca825fac5e14238e85c65394984116d5715094))
+* use generated url instead of file ([59380bc](https://github.com/PitcherAG/pitcher-watcher/commit/59380bcf75fff492e9c946cceab1df3c8cc56fc9))
+
 ## [1.4.1](https://github.com/PitcherAG/pitcher-watcher/compare/v1.4.0...v1.4.1) (2022-03-03)
 
 
