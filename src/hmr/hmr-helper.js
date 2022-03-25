@@ -43,7 +43,7 @@ function injectNewFiles(fileList) {
     if (file.endsWith('.js')) {
       newElement = document.createElement('script');
       newElement.type = 'text/javascript';
-      newElement.src = file;
+      newElement.src = url;
       document.body.appendChild(newElement);
     }
   });
