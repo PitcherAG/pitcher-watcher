@@ -48,9 +48,8 @@ const execBuildWatch = async (vueArgs, destination, clean, hmr) => {
   // if plugins already exist, push the plugin
   // otherwise create an array which including the plugin
   service.projectOptions.configureWebpack = service.projectOptions.configureWebpack || {}
-  service.projectOptions.configureWebpack.plugins = service.projectOptions.configureWebpack.plugins
-    ? service.projectOptions.configureWebpack.plugins.push(new PitcherWatcherPlugin(hmrPluginOptions))
-    : [new PitcherWatcherPlugin(hmrPluginOptions)]
+  service.projectOptions.configureWebpack.plugins = service.projectOptions.configureWebpack.plugins || []
+  service.projectOptions.configureWebpack.plugins = [...service.projectOptions.configureWebpack.plugins, new PitcherWatcherPlugin(hmrPluginOptions)]
 
   // run build watch
   service.run('build', vueOptions)
