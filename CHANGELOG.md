@@ -1,3 +1,10 @@
+## [1.4.3](https://github.com/PitcherAG/pitcher-watcher/compare/v1.4.2...v1.4.3) (2022-04-08)
+
+
+### Bug Fixes
+
+* use destructuring to append HMR plugin to provided array ([97a37a4](https://github.com/PitcherAG/pitcher-watcher/commit/97a37a4ce8cb4c4ccc7531c8cc1424a0571e1043))
+
 ## [1.4.2](https://github.com/PitcherAG/pitcher-watcher/compare/v1.4.1...v1.4.2) (2022-03-25)
 
 
