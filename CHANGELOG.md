@@ -1,3 +1,10 @@
+## [1.4.4](https://github.com/PitcherAG/pitcher-watcher/compare/v1.4.3...v1.4.4) (2022-04-13)
+
+
+### Bug Fixes
+
+* update dependencies ([7db6206](https://github.com/PitcherAG/pitcher-watcher/commit/7db6206342ef24f7e5189b6ac6b399e2ebb521c8))
+
 ## [1.4.3](https://github.com/PitcherAG/pitcher-watcher/compare/v1.4.2...v1.4.3) (2022-04-08)
 
 
