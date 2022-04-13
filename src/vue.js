@@ -42,7 +42,10 @@ const execBuildWatch = async (vueArgs, destination, clean, hmr) => {
   const hmrPluginOptions = {
     destination,
     ...hmr,
+    CI_TEST: 'true',
   }
+
+  console.log(hmrPluginOptions.CI_TEST)
 
   // inject HMR plugin
   // if plugins already exist, push the plugin
