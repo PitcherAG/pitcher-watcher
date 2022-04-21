@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/PitcherAG/pitcher-watcher/compare/v1.5.0...v1.5.1) (2022-04-21)
+
+
+### Bug Fixes
+
+* APPS-2931 fix `export` keyword in codebase ([fc684c6](https://github.com/PitcherAG/pitcher-watcher/commit/fc684c6c4999c9d945165a7fcb3c802d38c7fd55))
+
 # [1.5.0](https://github.com/PitcherAG/pitcher-watcher/compare/v1.4.4...v1.5.0) (2022-04-21)
 
 
