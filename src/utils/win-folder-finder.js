@@ -3,27 +3,46 @@ const { readdir } = require('fs/promises')
 const { win_driveSelectionPrompt, win_userSelectionPrompt, folderSelectionPrompt } = require('../prompts')
 const { log, error, warn } = require('./logger')
 const { getFolderNameWithParent } = require('./file-system')
+const { execute } = require('./exec')
 
 const MAX_BUFFER_SIZE = 2000 * 1024
 
-const drivePath = 'smb://Guest:@Windows 10._smb._tcp.local/[C] Windows 10'
-const cliScript = `osascript -e 'tell application "Finder"' -e 'try' -e 'mount volume "${drivePath}"' -e 'end try' -e 'end tell'`
+const mountParallelsDrive = async () => {
+  let windowsDriveName
 
-const mountParallelsDrive = () => {
+  try {
+    const output = await execute('ls /Volumes')
+
+    windowsDriveName = JSON.stringify(output)
+      .split('\\n')
+      .find((name) => name.includes('Windows'))
+  } catch (e) {
+    windowsDriveName = ''
+  } finally {
+    windowsDriveName
+      ? log(`Found drive: ${windowsDriveName}. Proceeding...`)
+      : warn(`Parallels Windows VM is not mounted as a network drive! Will try to mount automatically...`)
+  }
+  const drivePath = `smb://Guest:@Windows 10._smb._tcp.local/${windowsDriveName || '[C] Windows 10'}`
+  const cliScript = `osascript -e 'tell application "Finder"' -e 'try' -e 'mount volume "${drivePath}"' -e 'end try' -e 'end tell'`
+
   return new Promise((resolve) => {
-    exec(cliScript, { timeout: 1000 }, (err) => {
-      // Could not mount
-      if (err) {
-        warn(`Could not mount Parallels VM as a network drive!`)
+    if (windowsDriveName) resolve(true)
+    else {
+      exec(cliScript, { timeout: 1000 }, (err) => {
+        // Could not mount
+        if (err) {
+          warn(`Could not mount Parallels VM as a network drive!`)
 
-        return resolve(false)
-      }
+          return resolve(false)
+        }
 
-      // success
-      log('Mounted Parallels VM as network drive succesfully')
+        // success
+        log('Mounted Parallels VM as network drive succesfully')
 
-      return resolve(true)
-    })
+        return resolve(true)
+      })
+    }
   })
 }
 

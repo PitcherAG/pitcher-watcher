@@ -13,7 +13,7 @@ jobs:
         with:
           persist-credentials: false
       - name: Install dependencies
-        run: npm install
+        run: yarn
       - name: Semantic release
         uses: cycjimmy/semantic-release-action@v2
         id: semantic_release
