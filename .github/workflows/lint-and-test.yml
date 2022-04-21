@@ -10,37 +10,23 @@ jobs:
         with:
           fetch-depth: 0
       - uses: wagoid/commitlint-github-action@v2
-  lint:
+  lint_and_test:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Cache node modules
+      - name: Get yarn cache directory path
+        id: yarn-cache-dir-path
+        run: echo "::set-output name=dir::$(yarn cache dir)"
+      - name: Potentially restore cache
         uses: actions/cache@v2
-        env:
-          cache-name: cache-node-modules
+        id: yarn-cache # use this to check for `cache-hit` (`steps.yarn-cache.outputs.cache-hit != 'true'`)
         with:
-          path: |
-            **/node_modules
-          key: node-modules
-      - run: npm install
+          path: ${{ steps.yarn-cache-dir-path.outputs.dir }}
+          key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-yarn-
+      - run: yarn
       - name: lint
-        run: npm run lint
-  # unit_tests:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - uses: actions/checkout@v2
-  #     - name: Cache node modules
-  #       uses: actions/cache@v2
-  #       env:
-  #         cache-name: cache-node-modules
-  #       with:
-  #         path: |
-  #           **/node_modules
-  #         key: node-modules
-  #     - run: npm install
-  #     - name: Unit testing of the app with Jest coverage report
-  #       run: npm run test:unit
-  #     - name: Coveralls GitHub Action
-  #       uses: coverallsapp/github-action@v1.1.2
-  #       with:
-  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+        run: yarn lint
+      - name: lint
+        run: yarn test
