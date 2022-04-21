@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/PitcherAG/pitcher-watcher/compare/v1.4.4...v1.5.0) (2022-04-21)
+
+
+### Features
+
+* APPS-2931 detect mounted Windows VM name instead of hardcoded one ([a1131b6](https://github.com/PitcherAG/pitcher-watcher/commit/a1131b6539036929b56412ee58af235014bb5263))
+
 ## [1.4.4](https://github.com/PitcherAG/pitcher-watcher/compare/v1.4.3...v1.4.4) (2022-04-13)
 
 
