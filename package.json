@@ -13,8 +13,9 @@
   "scripts": {
     "vue-watcher": "node src/vue --fileID=123456 --platform=ios",
     "watcher": "node src/watcher --fileID=123456 --platform=ios --paths='src/' --ignored='utils/*'",
-    "test:unit": "jest",
-    "lint": "eslint ./src --fix"
+    "test": "jest",
+    "lint": "eslint ./src",
+    "lint:autofix": "eslint ./src --fix"
   },
   "bin": {
     "pitcher-watcher": "src/watcher.js",
@@ -24,6 +25,7 @@
     "src/"
   ],
   "devDependencies": {
+    "@babel/preset-env": "^7.16.11",
     "@pitcher/eslint-config": "^1.2.1",
     "@vue/eslint-config-prettier": "^6.0.0",
     "babel-eslint": "^10.1.0",
@@ -44,7 +46,7 @@
     "ws": "^8.5.0"
   },
   "peerDependencies": {
-    "@vue/cli-service": "~4.3.0",
-    "@pitcher/vue-cli-plugin-pitcherify": "~0.4.0"
+    "@pitcher/vue-cli-plugin-pitcherify": "~0.4.0",
+    "@vue/cli-service": "~4.3.0"
   }
 }
