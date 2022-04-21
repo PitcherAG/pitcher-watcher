@@ -1,6 +1,6 @@
 const { exec } = require('child_process')
 
-export const execute = (command) =>
+const execute = (command) =>
   new Promise((resolve, reject) =>
     exec(command, function(error, stdout, stderr) {
       if (error || stderr) return reject(error ? error : stderr)
@@ -8,3 +8,5 @@ export const execute = (command) =>
       return resolve(stdout)
     })
   )
+
+module.exports = { execute }
