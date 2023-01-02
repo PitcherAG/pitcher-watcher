@@ -98,14 +98,27 @@ const findUsers = async (drive) => {
 const getLocalStatePath = async (drive, user) => {
   const packagesPath = `${drive.path}/Users/${user}/AppData/Local/Packages`
   const packagesDir = await readdir(packagesPath)
-  const vayenFolderName = packagesDir.find((d) => d.includes('Vayen'))
+  const pitcherFolders = packagesDir.filter((d) => d.includes('Vayen'))
 
-  if (!vayenFolderName) {
+  if (!pitcherFolders.length) {
     error(`[ERROR]: Make sure you have installed Pitcher Impact on your Parallels machine!`)
     process.exit(1)
   }
 
-  return `${packagesPath}/${vayenFolderName}/LocalState`
+  let pitcherFolder = pitcherFolders[0]
+
+  if (pitcherFolders.length > 1) {
+    log(`Found multiple Pitcher folders`)
+    const mappedFolders = pitcherFolders.map((folder) => {
+        return {
+            name: folder,
+            value: folder,
+        }
+    })
+    pitcherFolder = await folderSelectionPrompt(mappedFolders)
+  }
+
+  return `${packagesPath}/${pitcherFolder}/LocalState`
 }
 
 // eslint-disable-next-line consistent-return
