@@ -110,10 +110,10 @@ const getLocalStatePath = async (drive, user) => {
   if (pitcherFolders.length > 1) {
     log(`Found multiple Pitcher folders`)
     const mappedFolders = pitcherFolders.map((folder) => {
-        return {
-            name: folder,
-            value: folder,
-        }
+      return {
+        name: folder,
+        value: folder,
+      }
     })
     pitcherFolder = await folderSelectionPrompt(mappedFolders)
   }
