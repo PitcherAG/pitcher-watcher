@@ -115,6 +115,7 @@ const getLocalStatePath = async (drive, user) => {
         value: folder,
       }
     })
+
     pitcherFolder = await folderSelectionPrompt(mappedFolders)
   }
 
