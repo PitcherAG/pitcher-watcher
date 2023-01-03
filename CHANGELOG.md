@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/PitcherAG/pitcher-watcher/compare/v1.5.1...v1.6.0) (2023-01-03)
+
+
+### Features
+
+* show prompt when multiple pitcher folders are available ([dafd832](https://github.com/PitcherAG/pitcher-watcher/commit/dafd8328062536be7c26c909251aaa0fefa52f70))
+
 ## [1.5.1](https://github.com/PitcherAG/pitcher-watcher/compare/v1.5.0...v1.5.1) (2022-04-21)
 
 
