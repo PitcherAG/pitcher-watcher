@@ -6,7 +6,7 @@ const isDirEmpty = (path) => fs.readdirSync(path).filter((f) => !/^\..*/.test(f)
 
 const dirExist = (path) => fs.existsSync(path)
 
-const fixPath = (path) => path.replace(/(\[|\]|\s)/g, '\\$&')
+const fixPath = (path) => path.replace(/(\[|\]|\(|\)|\s)/g, '\\$&')
 
 // cleaning with rm -rf
 // needs to be from bash because of the file system access rights on windows side
