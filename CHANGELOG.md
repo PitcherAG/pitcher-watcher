@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/PitcherAG/pitcher-watcher/compare/v1.6.0...v1.6.1) (2023-01-24)
+
+
+### Bug Fixes
+
+* enhance regex to support parenthesis on the vm's name ([922e81b](https://github.com/PitcherAG/pitcher-watcher/commit/922e81b90d6ed6c51af56497599e0477af22cfea))
+
 # [1.6.0](https://github.com/PitcherAG/pitcher-watcher/compare/v1.5.1...v1.6.0) (2023-01-03)
 
 
