@@ -28,6 +28,15 @@ function removeCurrentFiles(fileList) {
     }
   });
 }
+function clearIntervals(){
+      // Get a reference to the last interval + 1
+      const interval_id = window.setInterval(function(){}, Number.MAX_SAFE_INTEGER);
+
+      // Clear any timeout/interval up to that id
+      for (let i = 1; i < interval_id; i++) {
+        window.clearInterval(i);
+      }
+}
 
 function injectNewFiles(fileList) {
   fileList.forEach(function (file) {
@@ -70,6 +79,8 @@ if (process.env.VUE_APP_HMR) {
     var data = _ref.data;
 
     var res = JSON.parse(data);
+    
+    clearIntervals()
 
     if (res.event === 'HOT_RELOAD') {
       console.log('[@pitcher/watcher]: page updated');
