@@ -43,7 +43,7 @@
     "linkedom": "^0.14.3",
     "minimist": "^1.2.6",
     "portfinder": "^1.0.28",
-    "ws": "^8.5.0"
+    "ws": "^8.17.1"
   },
   "peerDependencies": {
     "@pitcher/vue-cli-plugin-pitcherify": "~0.4.0",
